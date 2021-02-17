@@ -29,5 +29,12 @@ namespace ServiceSystemNRDCL.Models
         [RegularExpression(@"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}", ErrorMessage = "Please enter a valid email address.")]
         [Display(Name = "Mail Address")]
         public string MailId { get; set; }
+
+        [Required(ErrorMessage = "Password is mandatory")]
+        [StringLength(6, MinimumLength = 6)]
+        [Display(Name = " Set Password")]
+        public string Password{ get; set; }
+
+
     }
 }
