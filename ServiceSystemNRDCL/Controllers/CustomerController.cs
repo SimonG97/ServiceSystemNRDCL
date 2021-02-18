@@ -14,7 +14,7 @@ namespace ServiceSystemNRDCL.Controllers
         public CustomerController() {
             customerRepository = new CustomerRepository();
         }
-        public IActionResult CheckCID()
+        public IActionResult SiteRegistration(int id, string name)
         {
             return View();
         }

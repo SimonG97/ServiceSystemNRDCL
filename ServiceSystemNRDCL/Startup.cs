@@ -25,6 +25,7 @@ namespace ServiceSystemNRDCL
         {
             services.AddControllersWithViews();
             services.AddRazorPages().AddRazorRuntimeCompilation();
+            services.AddRouting();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,9 +50,17 @@ namespace ServiceSystemNRDCL
 
             app.UseEndpoints(endpoints =>
             {
+
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+                //endpoints.MapControllerRoute(
+                // name: "HomePage",
+                // pattern: "Home-page",
+                // defaults: new {controller="Home",Action="HomePage" });
             });
         }
     }
