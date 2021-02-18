@@ -50,17 +50,9 @@ namespace ServiceSystemNRDCL
 
             app.UseEndpoints(endpoints =>
             {
-
-
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-
-
-                //endpoints.MapControllerRoute(
-                // name: "HomePage",
-                // pattern: "Home-page",
-                // defaults: new {controller="Home",Action="HomePage" });
             });
         }
     }
