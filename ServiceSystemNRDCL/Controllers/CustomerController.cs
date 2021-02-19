@@ -9,12 +9,14 @@ namespace ServiceSystemNRDCL.Controllers
 {
     public class CustomerController : Controller
     {
-        private readonly CustomerRepository customerRepository = null;
+        private readonly CustomerRepository customerRepository;
 
         public CustomerController() {
             customerRepository = new CustomerRepository();
         }
-        public IActionResult SiteRegistration(int id, string name)
+
+        [Route("Site_Registration",Name ="SiteRegistration")]
+        public IActionResult SiteRegistration()
         {
             return View();
         }

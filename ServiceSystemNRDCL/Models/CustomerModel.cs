@@ -23,16 +23,18 @@ namespace ServiceSystemNRDCL.Models
         [RegularExpression("[0-9]{8,8}", ErrorMessage = "Please enter a valid phone number.")]
         [StringLength(8, MinimumLength = 8)]
         [Display(Name = "Mobile Number")]
-        public string Mobile { get; set; }
+        [Phone]
+        public string Phone { get; set; }
 
         [Required(ErrorMessage = "Email Address is mandatory")]
-        [RegularExpression(@"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}", ErrorMessage = "Please enter a valid email address.")]
-        [Display(Name = "Mail Address")]
-        public string MailId { get; set; }
+        [EmailAddress]
+        public string Email { get; set; }
 
+        
         [Required(ErrorMessage = "Password is mandatory")]
         [StringLength(6, MinimumLength = 6)]
         [Display(Name = " Set Password")]
+        [DataType(DataType.Password)]
         public string Password{ get; set; }
 
 

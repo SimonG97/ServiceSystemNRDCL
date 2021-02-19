@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - NDRCL Service System</title>
+    <title>@ViewData["Title"]|NDRCL Service System</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -27,19 +27,19 @@
 
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link" href="/home/homepage">Home</a>
+                            <a class="nav-link" asp-route="HomePage">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/customer/siteRegistration">Site Registration</a>
+                            <a class="nav-link" asp-route="SiteRegistration">Site Registration</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/book/getallbooks">Deposit Advance</a>
+                            <a class="nav-link" href="/customer">Deposit Advance</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/book/aboutus">Place Order</a>
+                            <a class="nav-link" href="/customer">Place Order</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/book/contactus">Check Orders</a>
+                            <a class="nav-link" href="/customer">Check Orders</a>
                         </li>
                     </ul>
 

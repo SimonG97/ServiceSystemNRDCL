@@ -18,12 +18,13 @@ namespace ServiceSystemNRDCL.Controllers
             _logger = logger;
         }
 
+        
         public IActionResult Index()
         {
             return View();
         }
        
-    
+        [Route("Home-Page",Name ="HomePage")]
         public IActionResult HomePage()
         {
             return View();
