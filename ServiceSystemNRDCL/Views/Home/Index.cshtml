@@ -1,17 +1,46 @@
 ﻿@{
     ViewData["Title"] = "Login/Register";
 }
-
-<div class="jumbotron bg-light text-center">
+@model CustomerModel
+<div class="jumbotron text-center bg-white">
     <div class="container pt-5">
-        <h3>Welcome to NRDCL Service System</h3>
-        <div class="card w-50 mb-4 rounded-sm text-center">
-            <h4 class="card-title">Login</h4>
-            <div class="d-flex justify-content-between align-content-center">
-                <a href="getbook/Id" class="btn btn-primary"> Login</a>
-                <a href="getbook/Id" class="btn btn-outline-primary"> Register</a>
-            </div>
+        <div class="row">
+            <div class="col-md-5 mx-auto">
+                <div class="card ">
+                    <div class="card-header">
+                        <h4 class="text-center">Welcome to NRDCL Service System</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" asp-controller="Customer" asp-action="CheckCustomer">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group row">
+                                <label asp-for="CustomerCID" class="col-md-3 col-form-label form-control-label"></label>
+                                <div class="col-md-9">
+                                    <input class="form-control" asp-for="CustomerCID">
+                                    <span asp-validation-for="CustomerCID" class="text-danger"></span>
+                                </div>
+                            </div>
 
+                            <div class="form-group row">
+                                <label asp-for="Password" class="col-md-3 col-form-label form-control-label"></label>
+                                <div class="col-md-9">
+                                    <input class="form-control" asp-for="Password">
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group justify-content-between align-content-center">
+                                <input type="submit" value="Log In" class="btn btn-primary" />
+                                <a asp-controller="Customer" asp-action="AddNewCustomer" class="btn btn-outline-secondary">Register</a>
+                            </div>
+
+                        </form>
+
+                    </div>
+                    <div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

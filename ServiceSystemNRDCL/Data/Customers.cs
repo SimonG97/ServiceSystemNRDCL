@@ -4,12 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ServiceSystemNRDCL.Models
+namespace ServiceSystemNRDCL.Data
 {
-    public class CustomerModel
+    public class Customers
     {
         [Key]
-        [Required(ErrorMessage = "Customer CID is mandatory.")]
+        [Required(ErrorMessage = "Customer CID is mandatory.")]  
         [Display(Name = "Customer CID")]
         public int CustomerCID { get; set; }
 
@@ -19,6 +19,7 @@ namespace ServiceSystemNRDCL.Models
         public string CustomerName { get; set; }
 
         [Required(ErrorMessage = "Phone number is mandatory")]
+        [RegularExpression("[0-9]{8,8}", ErrorMessage = "Please enter a valid phone number.")]
         [Display(Name = "Mobile Number")]
         [Phone]
         public int Phone { get; set; }
@@ -27,12 +28,10 @@ namespace ServiceSystemNRDCL.Models
         [EmailAddress]
         public string Email { get; set; }
 
-        
+
         [Required(ErrorMessage = "Password is mandatory")]
         [Display(Name = "Password")]
         [DataType(DataType.Password)]
-        public string Password{ get; set; }
-
-
+        public string Password { get; set; }
     }
 }

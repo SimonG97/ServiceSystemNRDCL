@@ -23,12 +23,6 @@ namespace ServiceSystemNRDCL.Controllers
         {
             return View();
         }
-       
-        [Route("Home-Page",Name ="HomePage")]
-        public IActionResult HomePage()
-        {
-            return View();
-        }
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
