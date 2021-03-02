@@ -41,7 +41,7 @@ namespace ServiceSystemNRDCL.Controllers
             return View();
         }
 
-        //method to return view for deposit advance.
+        //method to return view for place order.
         [Route("Place-Order", Name = "Place Order")]
         public ViewResult PlaceOrder()
         {
@@ -49,7 +49,7 @@ namespace ServiceSystemNRDCL.Controllers
             return View();
         }
 
-        //method to return view for deposit advance.
+        //method to return view for View Orders.
         [Route("View-Orders", Name = "ViewOrders")]
         public ViewResult ViewOrders()
         {
@@ -60,12 +60,7 @@ namespace ServiceSystemNRDCL.Controllers
 
 
 
-        [HttpPost]
-        public IActionResult CheckCustomer(CustomerModel customer)
-        {
-
-            return View("HomePage");
-        }
+       
 
     }
 }
