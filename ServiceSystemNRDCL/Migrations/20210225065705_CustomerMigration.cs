@@ -3,7 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ServiceSystemNRDCL.Migrations
 {
-    public partial class CutomerDB : Migration
+    public partial class CustomerMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,12 +11,12 @@ namespace ServiceSystemNRDCL.Migrations
                 name: "Customers",
                 columns: table => new
                 {
-                    CustomerCID = table.Column<long>(maxLength: 11, nullable: false)
+                    CustomerCID = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CustomerName = table.Column<string>(maxLength: 250, nullable: false),
-                    Phone = table.Column<long>(maxLength: 8, nullable: false),
-                    Email = table.Column<string>(nullable: false),
-                    Password = table.Column<string>(nullable: false)
+                    CustomerName = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
+                    Phone = table.Column<int>(type: "integer", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -9,29 +9,28 @@ using ServiceSystemNRDCL.Data;
 namespace ServiceSystemNRDCL.Migrations
 {
     [DbContext(typeof(CustomerContext))]
-    [Migration("20210224053333_CutomerDB")]
-    partial class CutomerDB
+    [Migration("20210225065705_CustomerMigration")]
+    partial class CustomerMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-                .HasAnnotation("ProductVersion", "3.1.12")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63)
+                .HasAnnotation("ProductVersion", "5.0.3")
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("ServiceSystemNRDCL.Data.Customers", b =>
                 {
-                    b.Property<long>("CustomerCID")
+                    b.Property<int>("CustomerCID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasMaxLength(11)
+                        .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("CustomerName")
                         .IsRequired()
-                        .HasColumnType("character varying(250)")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -41,9 +40,8 @@ namespace ServiceSystemNRDCL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long>("Phone")
-                        .HasColumnType("bigint")
-                        .HasMaxLength(8);
+                    b.Property<int>("Phone")
+                        .HasColumnType("integer");
 
                     b.HasKey("CustomerCID");
 

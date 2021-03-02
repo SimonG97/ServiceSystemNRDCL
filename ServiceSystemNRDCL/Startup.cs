@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ServiceSystemNRDCL.Data;
+using ServiceSystemNRDCL.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,7 @@ namespace ServiceSystemNRDCL
             options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"))); 
 
             services.AddRazorPages().AddRazorRuntimeCompilation();
+            services.AddScoped<CustomerRepository, CustomerRepository>();
             services.AddRouting();
         }
 

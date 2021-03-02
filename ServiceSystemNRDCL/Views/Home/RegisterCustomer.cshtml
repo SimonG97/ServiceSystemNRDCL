@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewData["Title"] = "RegisterCustomer";
+}
+@model CustomerModel
+<div class="jumbotron text-center bg-white">
+    <div class="container pt-5">
+        <div class="row">
+            <div class="col-md-5 mx-auto">
+                @if (ViewBag.success==true)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>You have Succesfully Registered As Customer! Log-in to avail the service!</strong><br />
+                        <a asp-controller="Home" asp-action="index">Click here to Log-In</a>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }
+                @if (ViewBag.present==true)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>The CID is already registered! Log-in to avail the service!</strong><br />
+                        <a asp-controller="Home" asp-action="index">Click here to Log-In</a>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }
+                <div class="card shadow-lg ">
+                    <div class="card-header">
+                        <h4 class="text-center">Register As Customer</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" asp-controller="Customer" asp-action="AddNewCustomer">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group row">
+                                <label asp-for="CustomerName" class="col-md-5 col-form-label form-control-label"></label>
+                                <div class="col-md-6">
+                                    <input class="form-control" asp-for="CustomerName">
+                                    <span asp-validation-for="CustomerName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="CustomerCID" class="col-md-5 col-form-label form-control-label"></label>
+                                <div class="col-md-6">
+                                    <input class="form-control" asp-for="CustomerCID">
+                                    <span asp-validation-for="CustomerCID" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Phone" class="col-md-5 col-form-label form-control-label"></label>
+                                <div class="col-md-6">
+                                    <input class="form-control" asp-for="Phone">
+                                    <span asp-validation-for="Phone" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label asp-for="Email" class="col-md-5 col-form-label form-control-label"></label>
+                                <div class="col-md-6">
+                                    <input class="form-control" asp-for="Email">
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label asp-for="Password" class="col-md-5 col-form-label form-control-label"></label>
+                                <div class="col-md-6">
+                                    <input class="form-control" asp-for="Password">
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-5 col-form-label form-control-label">Confirm Password</label>
+                                <div class="col-md-6">
+                                    <input class="form-control" type="password">
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group justify-content-between align-content-center">
+                                <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
+                                <input type="submit" value="Register" class="btn btn-primary" />
+                            </div>
+
+
+                        </form>
+
+                    </div>
+                    <div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -10,35 +10,43 @@ namespace ServiceSystemNRDCL.Controllers
 {
     public class CustomerController : Controller
     {
-        private readonly CustomerRepository customerRepository;
+        private readonly CustomerRepository _customerRepository;
 
-        public CustomerController() {
-            customerRepository = new CustomerRepository();
+        public CustomerController(CustomerRepository customerRepository) {
+            _customerRepository = customerRepository;
         }
 
         [Route("Site_Registration",Name ="SiteRegistration")]
-        public IActionResult SiteRegistration()
+        public ViewResult SiteRegistration()
         {
+            ViewBag.status = "active font-weight-bold";
             return View();
         }
 
 
         [Route("Home-Page", Name = "HomePage")]
-        public IActionResult HomePage()
+        public ViewResult HomePage()
         {
+            
             return View();
         }
 
-      
-        public IActionResult AddNewCustomer( CustomerModel customer)
+        [Route("Deposit-Advance", Name = "DespositAdvance")]
+        public ViewResult DespositAdvance()
         {
+           
             return View();
         }
+
+
+      
+
 
         [HttpPost]
         public IActionResult CheckCustomer(CustomerModel customer)
         {
-            return View();
+
+            return View("HomePage");
         }
 
     }

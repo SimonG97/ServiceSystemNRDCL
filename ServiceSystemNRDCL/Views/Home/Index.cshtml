@@ -2,11 +2,12 @@
     ViewData["Title"] = "Login/Register";
 }
 @model CustomerModel
+
 <div class="jumbotron text-center bg-white">
     <div class="container pt-5">
         <div class="row">
             <div class="col-md-5 mx-auto">
-                <div class="card ">
+                <div class="card shadow-lg ">
                     <div class="card-header">
                         <h4 class="text-center">Welcome to NRDCL Service System</h4>
                     </div>
@@ -14,24 +15,25 @@
                         <form method="post" asp-controller="Customer" asp-action="CheckCustomer">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group row">
-                                <label asp-for="CustomerCID" class="col-md-3 col-form-label form-control-label"></label>
-                                <div class="col-md-9">
+                                <label asp-for="CustomerCID" class="col-md-5 col-form-label form-control-label"></label>
+                                <div class="col-md-6">
                                     <input class="form-control" asp-for="CustomerCID">
                                     <span asp-validation-for="CustomerCID" class="text-danger"></span>
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label asp-for="Password" class="col-md-3 col-form-label form-control-label"></label>
-                                <div class="col-md-9">
+                                <label asp-for="Password" class="col-md-5 col-form-label form-control-label"></label>
+                                <div class="col-md-6">
                                     <input class="form-control" asp-for="Password">
                                     <span asp-validation-for="Password" class="text-danger"></span>
                                 </div>
                             </div>
 
                             <div class="form-group justify-content-between align-content-center">
+                                <a asp-action="RegisterCustomer" class="btn btn-outline-secondary">Register</a>
                                 <input type="submit" value="Log In" class="btn btn-primary" />
-                                <a asp-controller="Customer" asp-action="AddNewCustomer" class="btn btn-outline-secondary">Register</a>
+
                             </div>
 
                         </form>
