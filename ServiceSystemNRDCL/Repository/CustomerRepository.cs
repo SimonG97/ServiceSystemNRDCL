@@ -17,10 +17,10 @@ namespace ServiceSystemNRDCL.Repository
         public async void AddNewCustomer(CustomerModel customer) {
             var newCustomer = new Customers()
             {
-                CustomerCID = customer.CustomerCID,
+                CustomerCID = customer.CustomerCID.HasValue?customer.CustomerCID.Value:0,
                 CustomerName = customer.CustomerName,
                 Email = customer.Email,
-                Phone = customer.Phone,
+                Phone = customer.Phone.HasValue?customer.Phone.Value:0,
                 Password = customer.Password
             };
             await _context.Customers.AddAsync(newCustomer);

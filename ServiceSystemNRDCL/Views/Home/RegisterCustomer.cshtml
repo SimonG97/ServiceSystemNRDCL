@@ -32,7 +32,7 @@
                         <h4 class="text-center">Register As Customer</h4>
                     </div>
                     <div class="card-body">
-                        <form method="post" asp-controller="Customer" asp-action="AddNewCustomer">
+                        <form method="post" asp-controller="Home" asp-action="RegisterCustomer">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group row">
                                 <label asp-for="CustomerName" class="col-md-5 col-form-label form-control-label"></label>
@@ -72,13 +72,7 @@
                                     <span asp-validation-for="Password" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-md-5 col-form-label form-control-label">Confirm Password</label>
-                                <div class="col-md-6">
-                                    <input class="form-control" type="password">
-                                    <span asp-validation-for="Password" class="text-danger"></span>
-                                </div>
-                            </div>
+                           
 
                             <div class="form-group justify-content-between align-content-center">
                                 <a asp-action="Index" class="btn btn-outline-secondary">Back</a>

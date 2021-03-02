@@ -9,19 +9,18 @@ namespace ServiceSystemNRDCL.Models
     public class CustomerModel
     {
         [Key]
-        [Required(ErrorMessage = "Customer CID is mandatory.")]
+        [Required(ErrorMessage = "Please Enter the CID")]
         [Display(Name = "Customer CID")]
-        public int CustomerCID { get; set; }
+        public int? CustomerCID { get; set; }
 
-        [Required(ErrorMessage = "Customer Name is mandatory.")]
+        [Required(ErrorMessage = "Please enter name")]
         [StringLength(250, MinimumLength = 3)]
         [Display(Name = "Customer Name")]
         public string CustomerName { get; set; }
 
         [Required(ErrorMessage = "Phone number is mandatory")]
         [Display(Name = "Mobile Number")]
-        [Phone]
-        public int Phone { get; set; }
+        public int? Phone { get; set; }
 
         [Required(ErrorMessage = "Email Address is mandatory")]
         [EmailAddress]
