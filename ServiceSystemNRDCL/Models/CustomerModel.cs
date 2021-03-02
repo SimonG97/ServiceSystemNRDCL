@@ -18,17 +18,17 @@ namespace ServiceSystemNRDCL.Models
         [Display(Name = "Customer Name")]
         public string CustomerName { get; set; }
 
-        [Required(ErrorMessage = "Phone number is mandatory")]
+        [Required(ErrorMessage = "Please enter phone number!")]
         [Display(Name = "Mobile Number")]
         public int? Phone { get; set; }
 
-        [Required(ErrorMessage = "Email Address is mandatory")]
+        [Required(ErrorMessage = "Please enter email!")]
         [EmailAddress]
         public string Email { get; set; }
 
         
-        [Required(ErrorMessage = "Password is mandatory")]
-        [Display(Name = "Password")]
+        [Required(ErrorMessage = "Please enter password!")]
+        [Display(Name = " Set Password")]
         [DataType(DataType.Password)]
         public string Password{ get; set; }
 

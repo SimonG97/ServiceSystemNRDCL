@@ -34,18 +34,16 @@ namespace ServiceSystemNRDCL.Controllers
         }
 
         //method to return view for deposit advance.
-        [Route("Deposit-Advance", Name = "DespositAdvance")]
-        public ViewResult DespositAdvance()
+        [Route("Deposit-Advance", Name ="DepositAdvance")]
+        public ViewResult DepositAdvance()
         {
-           
             return View();
         }
 
         //method to return view for place order.
-        [Route("Place-Order", Name = "Place Order")]
+        [Route("Place-Order", Name = "PlaceOrder")]
         public ViewResult PlaceOrder()
         {
-
             return View();
         }
 
@@ -53,7 +51,6 @@ namespace ServiceSystemNRDCL.Controllers
         [Route("View-Orders", Name = "ViewOrders")]
         public ViewResult ViewOrders()
         {
-
             return View();
         }
 
