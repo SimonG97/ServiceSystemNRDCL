@@ -9,18 +9,23 @@ namespace ServiceSystemNRDCL.Models
     public class CustomerModel
     {
         [Key]
-        [Required(ErrorMessage = "Please Enter the CID")]
+        [Required(ErrorMessage = "Please Enter the CID!")]
+        [RegularExpression(@"([0-9]+)", ErrorMessage = "Invalid Input!")]
+        [StringLength(11,MinimumLength =11, ErrorMessage ="Invalid CID!")]
         [Display(Name = "Customer CID")]
-        public int? CustomerCID { get; set; }
+        public string CustomerCID { get; set; }
 
-        [Required(ErrorMessage = "Please enter name")]
+        [Required(ErrorMessage = "Please enter name!")]
         [StringLength(250, MinimumLength = 3)]
         [Display(Name = "Customer Name")]
         public string CustomerName { get; set; }
 
         [Required(ErrorMessage = "Please enter phone number!")]
+        [RegularExpression(@"([0-9]+)", ErrorMessage = "Invalid Input!")]
+        [StringLength(8,MinimumLength =8,ErrorMessage ="Invalid phone numer!")]
         [Display(Name = "Mobile Number")]
-        public int? Phone { get; set; }
+        [Phone]
+        public string Phone { get; set; }
 
         [Required(ErrorMessage = "Please enter email!")]
         [EmailAddress]
@@ -28,7 +33,6 @@ namespace ServiceSystemNRDCL.Models
 
         
         [Required(ErrorMessage = "Please enter password!")]
-        [Display(Name = " Set Password")]
         [DataType(DataType.Password)]
         public string Password{ get; set; }
 
