@@ -7,13 +7,22 @@
     <div class="container pt-5">
         <div class="row">
             <div class="col-md-5 mx-auto">
+                @if (ViewBag.message==false)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>You have to Log-in to avail the services!</strong><br />
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }
                 <div class="card shadow-lg ">
                     <div class="card-header">
                         <h4 class="text-center">Welcome to NRDCL Service System</h4>
                     </div>
                     <div class="card-body">
                         <form method="post" asp-controller="Customer" asp-action="CheckCustomer">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
                             <div class="form-group row">
                                 <label asp-for="CustomerCID" class="col-md-5 col-form-label form-control-label"></label>
                                 <div class="col-md-6">

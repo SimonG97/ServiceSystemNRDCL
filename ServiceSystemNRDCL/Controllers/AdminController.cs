@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ServiceSystemNRDCL.Controllers
 {
+    
     public class AdminController : Controller
     {
         [Route("Admin/index",Name ="Admin")]

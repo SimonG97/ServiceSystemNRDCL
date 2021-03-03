@@ -22,7 +22,7 @@ namespace ServiceSystemNRDCL.Models
 
         [Required(ErrorMessage = "Please enter phone number!")]
         [RegularExpression(@"([0-9]+)", ErrorMessage = "Invalid Input!")]
-        [StringLength(8,MinimumLength =8,ErrorMessage ="Invalid phone numer!")]
+        [StringLength(8,MinimumLength =8,ErrorMessage ="Invalid phone number!")]
         [Display(Name = "Mobile Number")]
         [Phone]
         public string Phone { get; set; }
@@ -34,8 +34,15 @@ namespace ServiceSystemNRDCL.Models
         
         [Required(ErrorMessage = "Please enter password!")]
         [DataType(DataType.Password)]
+        [Display(Name ="Set Password")]
         public string Password{ get; set; }
 
-        
+        [Required(ErrorMessage = "Confirm Password is Required!")]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "The password do not match")]
+        [Display(Name ="Confirm Password")]
+        public string ConfirmPassword { get; set; }
+
+
     }
 }

@@ -9,8 +9,8 @@ using ServiceSystemNRDCL.Data;
 namespace ServiceSystemNRDCL.Migrations
 {
     [DbContext(typeof(CustomerContext))]
-    [Migration("20210225065705_CustomerMigration")]
-    partial class CustomerMigration
+    [Migration("20210302161046_newColoum")]
+    partial class newColoum
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,10 +22,13 @@ namespace ServiceSystemNRDCL.Migrations
 
             modelBuilder.Entity("ServiceSystemNRDCL.Data.Customers", b =>
                 {
-                    b.Property<int>("CustomerCID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                    b.Property<string>("CustomerCID")
+                        .HasMaxLength(11)
+                        .HasColumnType("character varying(11)");
+
+                    b.Property<string>("ConfirmPassword")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("CustomerName")
                         .IsRequired()
@@ -40,8 +43,10 @@ namespace ServiceSystemNRDCL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Phone")
-                        .HasColumnType("integer");
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("character varying(8)");
 
                     b.HasKey("CustomerCID");
 

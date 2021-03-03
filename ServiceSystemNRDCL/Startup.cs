@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,10 +30,17 @@ namespace ServiceSystemNRDCL
             services.AddControllersWithViews();
 
             services.AddDbContext<CustomerContext>(options=>
-            options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"))); 
+            options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<CustomerContext>();
+
+            services.ConfigureApplicationCookie(Config=> {
+                Config.LoginPath = "/Home/index/";
+            });
 
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddScoped<CustomerRepository, CustomerRepository>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddRouting();
         }
 

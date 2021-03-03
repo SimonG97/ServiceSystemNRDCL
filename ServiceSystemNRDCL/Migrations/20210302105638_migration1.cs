@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ServiceSystemNRDCL.Migrations
 {
-    public partial class CustomerMigration : Migration
+    public partial class migration1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,10 +10,9 @@ namespace ServiceSystemNRDCL.Migrations
                 name: "Customers",
                 columns: table => new
                 {
-                    CustomerCID = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CustomerCID = table.Column<string>(type: "character varying(11)", maxLength: 11, nullable: false),
                     CustomerName = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
-                    Phone = table.Column<int>(type: "integer", nullable: false),
+                    Phone = table.Column<string>(type: "character varying(8)", maxLength: 8, nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false)
                 },

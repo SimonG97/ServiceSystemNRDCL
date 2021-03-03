@@ -12,18 +12,19 @@ namespace ServiceSystemNRDCL.Controllers
 {
     public class HomeController : Controller
     {
-       
-        private readonly CustomerRepository _customerRepository;
 
+
+        private readonly IAccountRepository _accountRepository;
        //dependency injection of customer repository
-        public HomeController(CustomerRepository customerRepository)
+        public HomeController(IAccountRepository accountRepository)
         {
-            _customerRepository = customerRepository;
+            _accountRepository = accountRepository;
         }
 
         //view method for index page
-        public IActionResult Index()
+        public IActionResult Index(bool message=true)
         {
+            ViewBag.message = message;
             return View();
         }
 
@@ -43,13 +44,15 @@ namespace ServiceSystemNRDCL.Controllers
             if (ModelState.IsValid)
             {
                 //checking if the customer is already registered.
-                if (await _customerRepository.CheckCustomer(customer))
-                {
-                    return RedirectToAction(nameof(RegisterCustomer), new { success = false, present = true });
+                var result = await _accountRepository.CreateUserAsync(customer);
+                if (!result.Succeeded) {
+                    foreach (var errorMessage in result.Errors ) {
+                        ModelState.AddModelError("",errorMessage.Description);
+                    }
+                    ModelState.Clear();
                 }
-                //registering a customer.
-                _customerRepository.AddNewCustomer(customer);
-                return RedirectToAction(nameof(RegisterCustomer), new { success = true, present = false });
+                ViewBag.success = result.Succeeded;
+                
             }
             return View();
         }

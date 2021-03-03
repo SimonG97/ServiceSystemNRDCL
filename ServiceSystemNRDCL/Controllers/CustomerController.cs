@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ServiceSystemNRDCL.Models;
 using ServiceSystemNRDCL.Repository;
 using System;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace ServiceSystemNRDCL.Controllers
 {
+    [Authorize]
     public class CustomerController : Controller
     {
         private readonly CustomerRepository _customerRepository;
@@ -21,7 +23,6 @@ namespace ServiceSystemNRDCL.Controllers
         [Route("Site_Registration",Name ="SiteRegistration")]
         public ViewResult SiteRegistration()
         {
-            ViewBag.status = "active font-weight-bold";
             return View();
         }
 
