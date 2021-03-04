@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ServiceSystemNRDCL.Models
 {
+    //creating a class to add properties in a Identity User
     public class ApplicationUser : IdentityUser
     {
         public string FirstName { get; set; }

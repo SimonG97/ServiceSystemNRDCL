@@ -39,7 +39,7 @@ namespace ServiceSystemNRDCL
 
             //redirect to page for user to log in
             services.ConfigureApplicationCookie(Config=> {
-                Config.LoginPath = "/Home/LogIn/false?";
+                Config.LoginPath = "/Home/LogIn/";
             });
 
             services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -47,6 +47,7 @@ namespace ServiceSystemNRDCL
             //configuring identity options;
             services.Configure<IdentityOptions>(options=> {
                 options.User.RequireUniqueEmail =true;
+                
                 
             });
 
