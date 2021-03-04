@@ -7,37 +7,46 @@
     <div class="container pt-5">
         <div class="row">
             <div class="col-md-5 mx-auto">
-                @if (ViewBag.success)
+                @if (ViewBag.success == true)
                 {
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <strong>You have Succesfully Registered As Customer! Log-in to avail the service!</strong><br />
-                        <a asp-controller="Home" asp-action="index">Click here to Log-In</a>
+                        <a asp-controller="Home" asp-action="LogIn">Click here to Log-In</a>
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                 }
-                @*@if (ViewBag.present==true)
+                @if (ViewBag.present==true)
                 {
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>The CID is already registered! Log-in to avail the service!</strong><br />
-                        <a asp-controller="Home" asp-action="index">Click here to Log-In</a>
+                        <strong>The CID is already registered! Log-in to avail the services!</strong><br />
+                        <a asp-controller="Home" asp-action="LogIn">Click here to Log-In</a>
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                }*@
+                }
+
                 <div class="card shadow-lg ">
                     <div class="card-header">
                         <h4 class="text-center">Register As Customer</h4>
                     </div>
                     <div class="card-body">
                         <form method="post" asp-controller="Home" asp-action="RegisterCustomer">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group row">
-                                <label asp-for="CustomerName" class="col-md-5 col-form-label form-control-label"></label>
+                                <label asp-for="FirstName" class="col-md-5 col-form-label form-control-label"></label>
                                 <div class="col-md-6">
-                                    <input class="form-control" asp-for="CustomerName">
-                                    <span asp-validation-for="CustomerName" class="text-danger"></span>
+                                    <input class="form-control" asp-for="FirstName">
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="LastName" class="col-md-5 col-form-label form-control-label"></label>
+                                <div class="col-md-6">
+                                    <input class="form-control" asp-for="LastName">
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -73,7 +82,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label asp-for="ConfirmPassword"class="col-md-5 col-form-label form-control-label"></label>
+                                <label asp-for="ConfirmPassword" class="col-md-5 col-form-label form-control-label"></label>
                                 <div class="col-md-6">
                                     <input class="form-control" asp-for="ConfirmPassword">
                                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
@@ -83,7 +92,7 @@
 
 
                             <div class="form-group justify-content-between align-content-center">
-                                <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
+                                <a asp-action="LogIn" class="btn btn-outline-secondary">Back</a>
                                 <input type="submit" value="Register" class="btn btn-primary" />
                             </div>
 

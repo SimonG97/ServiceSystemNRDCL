@@ -10,37 +10,42 @@ namespace ServiceSystemNRDCL.Models
     {
         [Key]
         [Required(ErrorMessage = "Please Enter the CID!")]
-        [RegularExpression(@"([0-9]+)", ErrorMessage = "Invalid Input!")]
-        [StringLength(11,MinimumLength =11, ErrorMessage ="Invalid CID!")]
+        [RegularExpression(@"([0-9]+)", ErrorMessage = "Invalid CID!")]
+        [StringLength(11,MinimumLength =11, ErrorMessage ="Enter a valid CID!")]
         [Display(Name = "Customer CID")]
         public string CustomerCID { get; set; }
 
-        [Required(ErrorMessage = "Please enter name!")]
+        [Required(ErrorMessage = "Please enter First name!")]
         [StringLength(250, MinimumLength = 3)]
-        [Display(Name = "Customer Name")]
-        public string CustomerName { get; set; }
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "Please enter Last name!")]
+        [StringLength(250, MinimumLength = 3)]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
 
         [Required(ErrorMessage = "Please enter phone number!")]
-        [RegularExpression(@"([0-9]+)", ErrorMessage = "Invalid Input!")]
+        [RegularExpression(@"([0-9]+)", ErrorMessage = "Invalid phone number!")]
         [StringLength(8,MinimumLength =8,ErrorMessage ="Invalid phone number!")]
         [Display(Name = "Mobile Number")]
         [Phone]
         public string Phone { get; set; }
 
         [Required(ErrorMessage = "Please enter email!")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage ="Please enter a valid mail")]
         public string Email { get; set; }
 
         
         [Required(ErrorMessage = "Please enter password!")]
-        [DataType(DataType.Password)]
         [Display(Name ="Set Password")]
+        [DataType(DataType.Password)]
         public string Password{ get; set; }
 
-        [Required(ErrorMessage = "Confirm Password is Required!")]
-        [DataType(DataType.Password)]
+        [Required(ErrorMessage = "Confirm Password is Required!")] 
         [Compare("Password", ErrorMessage = "The password do not match")]
         [Display(Name ="Confirm Password")]
+        [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
 
 

@@ -1,13 +1,13 @@
 ﻿@{
     ViewData["Title"] = "Login/Register";
 }
-@model CustomerModel
+@model LogInModel
 
 <div class="jumbotron text-center bg-white">
     <div class="container pt-5">
         <div class="row">
             <div class="col-md-5 mx-auto">
-                @if (ViewBag.message==false)
+                @if (ViewBag.message ==true)
                 {
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <strong>You have to Log-in to avail the services!</strong><br />
@@ -16,18 +16,19 @@
                         </button>
                     </div>
                 }
+               
                 <div class="card shadow-lg ">
                     <div class="card-header">
                         <h4 class="text-center">Welcome to NRDCL Service System</h4>
                     </div>
                     <div class="card-body">
-                        <form method="post" asp-controller="Customer" asp-action="CheckCustomer">
-
+                        <form method="post">
+                           
                             <div class="form-group row">
-                                <label asp-for="CustomerCID" class="col-md-5 col-form-label form-control-label"></label>
+                                <label asp-for="CID" class="col-md-5 col-form-label form-control-label"></label>
                                 <div class="col-md-6">
-                                    <input class="form-control" asp-for="CustomerCID">
-                                    <span asp-validation-for="CustomerCID" class="text-danger"></span>
+                                    <input class="form-control" asp-for="CID">
+                                    <span asp-validation-for="CID" class="text-danger"></span>
                                 </div>
                             </div>
 
@@ -37,6 +38,14 @@
                                     <input class="form-control" asp-for="Password">
                                     <span asp-validation-for="Password" class="text-danger"></span>
                                 </div>
+                            </div>
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="form-group form-check row mt-5">
+                                <label asp-for="RememberMe" class="form-check-label col-md-auto"></label>
+                                <span class="col-md-6">
+                                    <input class="form-check-input" asp-for="RememberMe" />
+                                </span>
                             </div>
 
                             <div class="form-group justify-content-between align-content-center">

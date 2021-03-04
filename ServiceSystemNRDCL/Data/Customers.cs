@@ -15,9 +15,15 @@ namespace ServiceSystemNRDCL.Data
         [StringLength(11, MinimumLength = 11, ErrorMessage = "Invalid CID!")]
         public string CustomerCID { get; set; }
 
-        [Required(ErrorMessage = "Please enter name!")]
+        [Required(ErrorMessage = "Please enter First name!")]
         [StringLength(250, MinimumLength = 3)]
-        public string CustomerName { get; set; }
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "Please enter Last name!")]
+        [StringLength(250, MinimumLength = 3)]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
 
         [Required(ErrorMessage = "Please enter phone number!")]
         [RegularExpression(@"([0-9]+)", ErrorMessage = "Invalid Input!")]

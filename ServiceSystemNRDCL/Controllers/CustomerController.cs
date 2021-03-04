@@ -6,17 +6,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 namespace ServiceSystemNRDCL.Controllers
 {
     [Authorize]
     public class CustomerController : Controller
     {
-        private readonly CustomerRepository _customerRepository;
-
-        //dependency injection of customer repository.
-        public CustomerController(CustomerRepository customerRepository) {
-            _customerRepository = customerRepository;
+        private readonly IAccountRepository _accountRepository;
+        public CustomerController(IAccountRepository accountRepository)
+        {
+            _accountRepository = accountRepository;
         }
 
         //method to return view for site registration.
@@ -30,7 +28,6 @@ namespace ServiceSystemNRDCL.Controllers
         [Route("Home-Page", Name = "HomePage")]
         public ViewResult HomePage()
         {
-            
             return View();
         }
 

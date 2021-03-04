@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ServiceSystemNRDCL.Data;
+using ServiceSystemNRDCL.Helpers;
+using ServiceSystemNRDCL.Models;
 using ServiceSystemNRDCL.Repository;
 using System;
 using System.Collections.Generic;
@@ -32,16 +34,28 @@ namespace ServiceSystemNRDCL
             services.AddDbContext<CustomerContext>(options=>
             options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<CustomerContext>();
+            //adding the identity services
+            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<CustomerContext>();
 
+            //redirect to page for user to log in
             services.ConfigureApplicationCookie(Config=> {
-                Config.LoginPath = "/Home/index/";
+                Config.LoginPath = "/Home/LogIn/false?";
             });
 
             services.AddRazorPages().AddRazorRuntimeCompilation();
-            services.AddScoped<CustomerRepository, CustomerRepository>();
+
+            //configuring identity options;
+            services.Configure<IdentityOptions>(options=> {
+                options.User.RequireUniqueEmail =true;
+                
+            });
+
+            //adding account repository services
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddRouting();
+
+            //adding custom userclaim principal
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>,ApplicationUserClaims>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,14 +75,14 @@ namespace ServiceSystemNRDCL
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=LogIn}/{id?}");
 
             });
         }

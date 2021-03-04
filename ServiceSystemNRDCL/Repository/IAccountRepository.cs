@@ -6,6 +6,9 @@ namespace ServiceSystemNRDCL.Repository
 {
     public interface IAccountRepository
     {
+        Task<ApplicationUser> CheckCustomer(CustomerModel customer);
         Task<IdentityResult> CreateUserAsync(CustomerModel customer);
+        Task<SignInResult> PasswordSignInAsync(LogInModel logIn);
+        Task SignOutAsync();
     }
 }
