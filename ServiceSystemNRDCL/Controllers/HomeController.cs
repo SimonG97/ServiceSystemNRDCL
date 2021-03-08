@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ServiceSystemNRDCL.Models;
 using ServiceSystemNRDCL.Repository;
@@ -22,8 +23,12 @@ namespace ServiceSystemNRDCL.Controllers
         }
 
         //view method for Log in page
+        [AllowAnonymous]
         public IActionResult LogIn(string returnUrl)
         {
+            if (User.Identity.IsAuthenticated) {
+               return RedirectToAction("HomePage", "Customer");
+            }
             if (!string.IsNullOrEmpty(returnUrl))
             {
                 ViewBag.message = true;
