@@ -1,0 +1,9 @@
+﻿@if (ViewBag.EmailErrors!= null)
+{
+    <ul>
+        @foreach (var messages in ViewBag.EmailErrors)
+        {
+          <li class="text-danger">@messages</li>
+        }
+    </ul>
+}

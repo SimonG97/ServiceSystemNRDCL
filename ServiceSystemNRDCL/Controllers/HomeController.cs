@@ -60,6 +60,7 @@ namespace ServiceSystemNRDCL.Controllers
         {
             ViewBag.present = present;
             ViewBag.success = success;
+            ViewBag.ErrorMessage = false;
             return View();
         }
 
@@ -79,25 +80,20 @@ namespace ServiceSystemNRDCL.Controllers
                     //checking if it was successful
                     if (!result.Succeeded)
                     {
-                        string passwordError = null;
-                        string emailError = null;
+                        ViewBag.PassWordErrors = new List<string>();
+                        ViewBag.EmailErrors = new List<string>();
                         foreach (var errorMessage in result.Errors)
                         {
-                            if (errorMessage.Description.Contains("Passwords")) {
-                                passwordError=string.Join(passwordError, "hi",errorMessage.Description); 
+                            if (errorMessage.Description.Contains("Passwords"))
+                            {
+                                ViewBag.PasswordErrors.Add(errorMessage.Description);
                             }
-                            else{
-                                emailError = string.Join(emailError,"hi",errorMessage.Description);
+                            else {
+                                ViewBag.EmailErrors.Add(errorMessage.Description);
                             }
+           
                         }
-                        //sending the error messages to the view.
-                        if (passwordError!=null) {
-                            ModelState.AddModelError("Password", passwordError);
-                        }
-                        if (emailError!= null)
-                        {
-                            ModelState.AddModelError("Email", emailError);
-                        }
+                        
                         return View(customer);
                     }
                     ModelState.Clear();
