@@ -65,7 +65,7 @@ namespace ServiceSystemNRDCL.Controllers
         {
             ViewBag.present = present;
             ViewBag.success = success;
-            ViewBag.ErrorMessage = false;
+     
             return View();
         }
 
