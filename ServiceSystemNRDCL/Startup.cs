@@ -10,6 +10,7 @@ using ServiceSystemNRDCL.Data;
 using ServiceSystemNRDCL.Helpers;
 using ServiceSystemNRDCL.Models;
 using ServiceSystemNRDCL.Repository;
+using ServiceSystemNRDCL.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,8 +48,6 @@ namespace ServiceSystemNRDCL
             //configuring identity options;
             services.Configure<IdentityOptions>(options=> {
                 options.User.RequireUniqueEmail =true;
-                
-                
             });
 
             //adding account repository services
@@ -57,6 +56,9 @@ namespace ServiceSystemNRDCL
 
             //adding custom userclaim principal
             services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>,ApplicationUserClaims>();
+
+            //adding Ihttpcontext accessor
+            services.AddScoped<IUserService,UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ServiceSystemNRDCL.Migrations
 {
-    public partial class Migrating : Migration
+    public partial class AddedCustomerOrders : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,7 +27,8 @@ namespace ServiceSystemNRDCL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    CID = table.Column<string>(type: "text", nullable: true),
+                    FirstName = table.Column<string>(type: "text", nullable: true),
+                    LastName = table.Column<string>(type: "text", nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -49,19 +50,21 @@ namespace ServiceSystemNRDCL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Customers",
+                name: "CustomerOrders",
                 columns: table => new
                 {
-                    CustomerCID = table.Column<string>(type: "character varying(11)", maxLength: 11, nullable: false),
-                    CustomerName = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
-                    Phone = table.Column<string>(type: "character varying(8)", maxLength: 8, nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: false),
-                    Password = table.Column<string>(type: "text", nullable: false),
-                    ConfirmPassword = table.Column<string>(type: "text", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CustomerCID = table.Column<string>(type: "text", nullable: true),
+                    FirstName = table.Column<string>(type: "text", nullable: true),
+                    LastName = table.Column<string>(type: "text", nullable: true),
+                    Phone = table.Column<string>(type: "text", nullable: true),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    OrderedOn = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customers", x => x.CustomerCID);
+                    table.PrimaryKey("PK_CustomerOrders", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -226,7 +229,7 @@ namespace ServiceSystemNRDCL.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Customers");
+                name: "CustomerOrders");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

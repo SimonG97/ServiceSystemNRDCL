@@ -10,8 +10,8 @@ using ServiceSystemNRDCL.Data;
 namespace ServiceSystemNRDCL.Migrations
 {
     [DbContext(typeof(CustomerContext))]
-    [Migration("20210303083559_Migrating")]
-    partial class Migrating
+    [Migration("20210305040350_AddedCustomerOrders")]
+    partial class AddedCustomerOrders
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -151,37 +151,34 @@ namespace ServiceSystemNRDCL.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ServiceSystemNRDCL.Data.Customers", b =>
+            modelBuilder.Entity("ServiceSystemNRDCL.Data.CustomerOrders", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
                     b.Property<string>("CustomerCID")
-                        .HasMaxLength(11)
-                        .HasColumnType("character varying(11)");
-
-                    b.Property<string>("ConfirmPassword")
-                        .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<string>("CustomerName")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("character varying(250)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
+                    b.Property<string>("FirstName")
                         .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("OrderedOn")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("character varying(8)");
+                        .HasColumnType("text");
 
-                    b.HasKey("CustomerCID");
+                    b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("CustomerOrders");
                 });
 
             modelBuilder.Entity("ServiceSystemNRDCL.Models.ApplicationUser", b =>
@@ -191,9 +188,6 @@ namespace ServiceSystemNRDCL.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
-
-                    b.Property<string>("CID")
-                        .HasColumnType("text");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -205,6 +199,12 @@ namespace ServiceSystemNRDCL.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("text");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");

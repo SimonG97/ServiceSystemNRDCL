@@ -44,7 +44,7 @@ namespace ServiceSystemNRDCL.Repository
         //signing in method
         public async Task<SignInResult> PasswordSignInAsync(LogInModel logIn)
         {
-            return await _signInManager.PasswordSignInAsync(logIn.CID, logIn.Password, logIn.RememberMe, false);
+            return await _signInManager.PasswordSignInAsync(logIn.CID, logIn.Password,logIn.RememberMe, false);
         }
 
         //log out method

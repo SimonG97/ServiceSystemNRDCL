@@ -79,9 +79,24 @@ namespace ServiceSystemNRDCL.Controllers
                     //checking if it was successful
                     if (!result.Succeeded)
                     {
+                        string passwordError = null;
+                        string emailError = null;
                         foreach (var errorMessage in result.Errors)
                         {
-                            ModelState.AddModelError("", errorMessage.Description);
+                            if (errorMessage.Description.Contains("Passwords")) {
+                                passwordError=string.Join(passwordError, "hi",errorMessage.Description); 
+                            }
+                            else{
+                                emailError = string.Join(emailError,"hi",errorMessage.Description);
+                            }
+                        }
+                        //sending the error messages to the view.
+                        if (passwordError!=null) {
+                            ModelState.AddModelError("Password", passwordError);
+                        }
+                        if (emailError!= null)
+                        {
+                            ModelState.AddModelError("Email", emailError);
                         }
                         return View(customer);
                     }

@@ -149,42 +149,34 @@ namespace ServiceSystemNRDCL.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ServiceSystemNRDCL.Data.Customers", b =>
+            modelBuilder.Entity("ServiceSystemNRDCL.Data.CustomerOrders", b =>
                 {
-                    b.Property<string>("CustomerCID")
-                        .HasMaxLength(11)
-                        .HasColumnType("character varying(11)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("ConfirmPassword")
-                        .IsRequired()
+                    b.Property<string>("CustomerCID")
                         .HasColumnType("text");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("character varying(250)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("character varying(250)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("LastName")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("OrderedOn")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("character varying(8)");
+                        .HasColumnType("text");
 
-                    b.HasKey("CustomerCID");
+                    b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("CustomerOrders");
                 });
 
             modelBuilder.Entity("ServiceSystemNRDCL.Models.ApplicationUser", b =>
