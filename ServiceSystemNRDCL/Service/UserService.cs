@@ -14,10 +14,15 @@ namespace ServiceSystemNRDCL.Service
         {
             _httpContext = httpContext;
         }
+        //method to get user id
         public string GetUserId()
         {
             return _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
+        //method to check if user is logged in
+        public bool IsAuthenticated() {
+            return _httpContext.HttpContext.User.Identity.IsAuthenticated;
+        }
     }
 }

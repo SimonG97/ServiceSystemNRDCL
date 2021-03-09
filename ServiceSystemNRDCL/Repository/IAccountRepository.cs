@@ -10,5 +10,7 @@ namespace ServiceSystemNRDCL.Repository
         Task<IdentityResult> CreateUserAsync(CustomerModel customer);
         Task<SignInResult> PasswordSignInAsync(LogInModel logIn);
         Task SignOutAsync();
+        Task<IdentityResult> ChangePasswordAsync(ChangePasswordModel changePassword);
+        
     }
 }

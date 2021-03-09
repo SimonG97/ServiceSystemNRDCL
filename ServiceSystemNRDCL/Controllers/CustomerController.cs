@@ -52,10 +52,50 @@ namespace ServiceSystemNRDCL.Controllers
             return View();
         }
 
+        //log out action method
+        public async Task<IActionResult> LogOut()
+        {
+            await _accountRepository.SignOutAsync();
+            return RedirectToAction("LogIn", "Home");
+        }
 
 
+        //change password method
+        [Route("change-password")]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
 
-       
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel changePassword)
+        {
+            if (ModelState.IsValid)
+            {
+                //changing the password from repository
+                var result = await _accountRepository.ChangePasswordAsync(changePassword);
+                if (!result.Succeeded)
+                {
+                    ViewBag.PassWordErrors = new List<string>();
+                    ViewBag.CurrentPasswordError = new List<string>();
+                    foreach (var errorMessage in result.Errors)
+                    {
+                        if (errorMessage.Description.Contains("Passwords"))
+                        {
+                            ViewBag.PasswordErrors.Add(errorMessage.Description);
+                        }
+                        else {
+                            ViewBag.CurrentPasswordError.Add(errorMessage.Description);
+                        }
+                    }
+                }
+                ModelState.Clear();
+                ViewBag.success = result.Succeeded;
+            }
+            return View();
+        }
+
+
 
     }
 }

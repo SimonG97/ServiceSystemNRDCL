@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ServiceSystemNRDCL.Models;
 using ServiceSystemNRDCL.Repository;
+using ServiceSystemNRDCL.Service;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,23 +17,27 @@ namespace ServiceSystemNRDCL.Controllers
 
 
         private readonly IAccountRepository _accountRepository;
-       //dependency injection of customer repository
-        public HomeController(IAccountRepository accountRepository)
+        private readonly IUserService _userService;
+
+       //dependency injection of customer repository and user services
+        public HomeController(IAccountRepository accountRepository,IUserService userService)
         {
             _accountRepository = accountRepository;
+            _userService = userService;
         }
 
         //view method for Log in page
         [AllowAnonymous]
         public IActionResult LogIn(string returnUrl)
         {
-            if (User.Identity.IsAuthenticated) {
+            //checking if the user is authenticated
+            if (_userService.IsAuthenticated()) {
                return RedirectToAction("HomePage", "Customer");
             }
+            //checking ig there is return url
             if (!string.IsNullOrEmpty(returnUrl))
             {
                 ViewBag.message = true;
-               
             }
             return View();
         }
@@ -103,7 +108,7 @@ namespace ServiceSystemNRDCL.Controllers
                     }
                     ModelState.Clear();
                     ViewBag.success = result.Succeeded;
-                    ViewBag.present = false;
+                    
                 }
                 else { 
                     ViewBag.present=true;
@@ -111,13 +116,6 @@ namespace ServiceSystemNRDCL.Controllers
             }
             return View();
         }
-
-        //log out action method
-        public async Task<IActionResult> LogOut() {
-            await _accountRepository.SignOutAsync();
-            return RedirectToAction("LogIn", "Home");
-        }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

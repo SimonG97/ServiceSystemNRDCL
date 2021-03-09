@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using ServiceSystemNRDCL.Models;
+using ServiceSystemNRDCL.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,14 @@ namespace ServiceSystemNRDCL.Repository
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        public AccountRepository(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        private readonly IUserService _userService;
+        public AccountRepository(UserManager<ApplicationUser> userManager, 
+            SignInManager<ApplicationUser> signInManager,
+            IUserService userService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _userService = userService;
         }
 
         //adding new users to database using custom identity
@@ -37,8 +42,8 @@ namespace ServiceSystemNRDCL.Repository
         //checking if the cid is already registered
         public async Task<ApplicationUser> CheckCustomer(CustomerModel customer)
         {
-            var allCustomers = await _userManager.FindByIdAsync(customer.CustomerCID);
-            return allCustomers;
+            return await _userManager.FindByIdAsync(customer.CustomerCID);
+            
         }
 
         //signing in method
@@ -50,6 +55,12 @@ namespace ServiceSystemNRDCL.Repository
         //log out method
         public async Task SignOutAsync() {
              await _signInManager.SignOutAsync();
+        }
+
+        //method to change the password
+        public async Task<IdentityResult> ChangePasswordAsync(ChangePasswordModel changePassword) {
+            var user = await _userManager.FindByIdAsync(_userService.GetUserId());
+           return await _userManager.ChangePasswordAsync(user,changePassword.CurrentPassword,changePassword.NewPassword);
         }
 
     }
