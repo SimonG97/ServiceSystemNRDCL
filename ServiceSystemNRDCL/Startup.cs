@@ -36,7 +36,8 @@ namespace ServiceSystemNRDCL
             options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             //adding the identity services
-            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<CustomerContext>();
+            services.AddIdentity<ApplicationUser, IdentityRole>().
+                AddEntityFrameworkStores<CustomerContext>().AddDefaultTokenProviders();
 
             //redirect to page for user to log in
             services.ConfigureApplicationCookie(Config=> {
@@ -48,6 +49,7 @@ namespace ServiceSystemNRDCL
             //configuring identity options;
             services.Configure<IdentityOptions>(options=> {
                 options.User.RequireUniqueEmail =true;
+                options.SignIn.RequireConfirmedEmail =true;
             });
 
             //adding account repository services
@@ -59,6 +61,13 @@ namespace ServiceSystemNRDCL
 
             //adding Ihttpcontext accessor
             services.AddScoped<IUserService,UserService>();
+
+            //adding SMTPConfig model
+            services.Configure<SMTPConfigModel>(Configuration.GetSection("SMTPConfig"));
+
+            //adding email service
+            services.AddScoped<IEmailService, EmailService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -18,20 +18,23 @@ namespace ServiceSystemNRDCL.Controllers
 
         private readonly IAccountRepository _accountRepository;
         private readonly IUserService _userService;
-
+        private readonly IEmailService _emailService;
        //dependency injection of customer repository and user services
-        public HomeController(IAccountRepository accountRepository,IUserService userService)
+        public HomeController(IAccountRepository accountRepository,
+            IUserService userService, IEmailService emailService)
         {
             _accountRepository = accountRepository;
             _userService = userService;
+            _emailService = emailService;
         }
 
         //view method for Log in page
         [AllowAnonymous]
         public IActionResult LogIn(string returnUrl)
         {
+
             //checking if the user is authenticated
-            if (_userService.IsAuthenticated()) {
+             if (_userService.IsAuthenticated()) {
                return RedirectToAction("HomePage", "Customer");
             }
             //checking ig there is return url
@@ -59,7 +62,14 @@ namespace ServiceSystemNRDCL.Controllers
                     //redirecting to below URL if there is no return URL
                     return RedirectToAction("HomePage","Customer");
                 }
-                ModelState.AddModelError("","Invalid Credentials");
+                if (result.IsNotAllowed)
+                {
+                    ModelState.AddModelError("", "You have to confirm email to log in");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid Credentials");
+                }
             }
             return View();
         }
@@ -115,6 +125,15 @@ namespace ServiceSystemNRDCL.Controllers
                 }
             }
             return View();
+        }
+
+        //method to show that user has confirmed email
+        [HttpGet("confirm-email")]
+        public async Task ConfirmEmail(string uid, string token) {
+            if (!string.IsNullOrEmpty(uid)&&!string.IsNullOrEmpty(token)) {
+                
+            }
+
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

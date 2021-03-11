@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using ServiceSystemNRDCL.Models;
 using ServiceSystemNRDCL.Service;
 using System;
@@ -13,13 +14,19 @@ namespace ServiceSystemNRDCL.Repository
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IUserService _userService;
+        private readonly IEmailService _emailService;
+        private readonly IConfiguration _configuration;
+     
         public AccountRepository(UserManager<ApplicationUser> userManager, 
             SignInManager<ApplicationUser> signInManager,
-            IUserService userService)
+            IUserService userService, IEmailService emailService,
+            IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _userService = userService;
+            _emailService = emailService;
+            _configuration = configuration;
         }
 
         //adding new users to database using custom identity
@@ -36,7 +43,14 @@ namespace ServiceSystemNRDCL.Repository
                 UserName = customer.CustomerCID
 
             };
-            return await _userManager.CreateAsync(user, customer.Password);
+            var result= await _userManager.CreateAsync(user, customer.Password);
+            if (result.Succeeded) {
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                if (!string.IsNullOrEmpty(token)) {
+                    await SendEmailComfirmationEmail(user, token);
+                }
+            }
+            return result;
         }
 
         //checking if the cid is already registered
@@ -61,6 +75,24 @@ namespace ServiceSystemNRDCL.Repository
         public async Task<IdentityResult> ChangePasswordAsync(ChangePasswordModel changePassword) {
             var user = await _userManager.FindByIdAsync(_userService.GetUserId());
            return await _userManager.ChangePasswordAsync(user,changePassword.CurrentPassword,changePassword.NewPassword);
+        }
+
+        //Method to send the confirmation mail to the users
+        private async Task SendEmailComfirmationEmail(ApplicationUser user,string token) {
+            string appDomain = _configuration.GetSection("Application:AppDomain").Value;
+            string confirmationLink = _configuration.GetSection("Application:EmailConfirmation").Value;
+            UserEmailOptions options = new UserEmailOptions
+            {
+                ToEmails = new List<string>() { user.Email },
+                PlaceHolder = new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("{{UserName}}",user.FirstName),
+                    new KeyValuePair<string, string>("{{link}}",string.Format(appDomain+confirmationLink,user.Id,token))
+                }
+
+            };
+            await _emailService.SendEmailConfirmation(options);
+
         }
 
     }
