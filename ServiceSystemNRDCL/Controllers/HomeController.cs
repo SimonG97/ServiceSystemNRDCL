@@ -47,7 +47,7 @@ namespace ServiceSystemNRDCL.Controllers
 
         //method to log in as customer
         [HttpPost]
-        public async Task<IActionResult> LogIn(LogInModel logIn, string message, string returnUrl)
+        public async Task<IActionResult> LogIn(LogInModel logIn,string returnUrl)
         {
             if (ModelState.IsValid) {
                 //passing log in model to account repository
