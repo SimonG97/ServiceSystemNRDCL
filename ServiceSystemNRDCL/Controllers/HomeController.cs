@@ -18,14 +18,14 @@ namespace ServiceSystemNRDCL.Controllers
 
         private readonly IAccountRepository _accountRepository;
         private readonly IUserService _userService;
-        private readonly IEmailService _emailService;
+        
        //dependency injection of customer repository and user services
         public HomeController(IAccountRepository accountRepository,
-            IUserService userService, IEmailService emailService)
+            IUserService userService)
         {
             _accountRepository = accountRepository;
             _userService = userService;
-            _emailService = emailService;
+            
         }
 
         //view method for Log in page
@@ -129,12 +129,19 @@ namespace ServiceSystemNRDCL.Controllers
 
         //method to show that user has confirmed email
         [HttpGet("confirm-email")]
-        public async Task ConfirmEmail(string uid, string token) {
-            if (!string.IsNullOrEmpty(uid)&&!string.IsNullOrEmpty(token)) {
-                
+        public async Task<IActionResult> ConfirmEmail(string uid, string token)
+        {
+            if (!string.IsNullOrEmpty(uid) && !string.IsNullOrEmpty(token))
+            {
+                token = token.Replace(" ", "+");
+                var result = await _accountRepository.ConfirmEmailAsync(uid,token);
+                ViewBag.confirmEmail = result.Succeeded;
             }
+            return View("LogIn");
 
         }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -20,7 +20,6 @@ namespace ServiceSystemNRDCL.Models
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
-        [Required(ErrorMessage = "Please enter Last name!")]
         [StringLength(250, MinimumLength = 3)]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }

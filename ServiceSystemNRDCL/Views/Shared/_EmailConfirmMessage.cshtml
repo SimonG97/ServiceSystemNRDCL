@@ -1,0 +1,18 @@
+﻿@if (ViewBag.confirmEmail == true)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>You have successfully confirmed the email. Log-in to avail the services!!!</strong><br />
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+else if(ViewBag.confirmEmail==false)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Something went wrong or your token has been expired!!!</strong><br />
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}

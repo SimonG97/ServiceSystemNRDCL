@@ -11,6 +11,6 @@ namespace ServiceSystemNRDCL.Repository
         Task<SignInResult> PasswordSignInAsync(LogInModel logIn);
         Task SignOutAsync();
         Task<IdentityResult> ChangePasswordAsync(ChangePasswordModel changePassword);
-        
+        Task<IdentityResult> ConfirmEmailAsync(string uid, string token);
     }
 }

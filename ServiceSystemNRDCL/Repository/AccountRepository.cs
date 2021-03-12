@@ -77,6 +77,12 @@ namespace ServiceSystemNRDCL.Repository
            return await _userManager.ChangePasswordAsync(user,changePassword.CurrentPassword,changePassword.NewPassword);
         }
 
+        //method to confirm email 
+        public async Task <IdentityResult> ConfirmEmailAsync(string uid, string token)
+        {
+            return await _userManager.ConfirmEmailAsync(await _userManager.FindByIdAsync(uid), token);
+        }
+
         //Method to send the confirmation mail to the users
         private async Task SendEmailComfirmationEmail(ApplicationUser user,string token) {
             string appDomain = _configuration.GetSection("Application:AppDomain").Value;
