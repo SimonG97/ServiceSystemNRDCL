@@ -1,0 +1,11 @@
+﻿/* To display the red * near the label */
+
+.required::after {
+    content: " * ";
+    color: red;
+    font-size: 18px;
+}
+
+.hidden {
+    display: none;
+}

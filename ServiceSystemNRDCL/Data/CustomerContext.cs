@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ServiceSystemNRDCL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 
 namespace ServiceSystemNRDCL.Data
@@ -16,5 +12,7 @@ namespace ServiceSystemNRDCL.Data
         }
 
         public DbSet<CustomerOrders> CustomerOrders { get; set; }
+        public DbSet<Site> Sites { get; set; }
+        public DbSet<Deposit> Deposits { get; set; }
     }
 }

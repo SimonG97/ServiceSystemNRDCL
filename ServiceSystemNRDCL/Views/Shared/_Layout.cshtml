@@ -3,12 +3,15 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="~/Images/favicon.ico">
     <title>@ViewData["Title"]|NDRCL Service System</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/glyphicons/css/bootstrap-glyphicons.min.css" type="text/css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/custom.css" />
 </head>
 <body>
-  <partial name="_header" />
+    <partial name="_header" />
     <main role="main">
         @RenderBody()
     </main>
@@ -16,15 +19,11 @@
         <div class="container">
             Copyright &copy; NRDCL Service System @DateTime.Now.Year
         </div>
-
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-   <partial name="_ValidationScriptsPartial">
-
-
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
-
 </html>
 

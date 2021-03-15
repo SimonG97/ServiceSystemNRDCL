@@ -7,20 +7,17 @@
                 NRDCL Service System
             </div>
 
-
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
-
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
                         <a class="nav-link" asp-route="HomePage">Home</a>
                     </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" asp-route="SiteRegistration">Site Registration</a>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Site" asp-action="Index">Site</a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link" asp-route="DepositAdvance">Deposit Advance</a>
@@ -35,7 +32,6 @@
                 <ul class="navbar-nav flex-grow-0">
                     <partial name="_LoginInfo" />
                 </ul>
-
             </div>
         </div>
     </nav>

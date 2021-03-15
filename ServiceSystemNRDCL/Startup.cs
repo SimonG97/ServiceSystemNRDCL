@@ -67,7 +67,7 @@ namespace ServiceSystemNRDCL
 
             //adding email service
             services.AddScoped<IEmailService, EmailService>();
-
+            services.AddScoped<ISiteRepository, SiteRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

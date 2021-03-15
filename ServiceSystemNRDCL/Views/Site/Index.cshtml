@@ -1,0 +1,81 @@
+﻿@model IEnumerable<ServiceSystemNRDCL.Models.Site>
+
+@{
+    ViewData["Title"] = "Sites";
+}
+
+<div class="jumbotron text-center bg-white">
+    <div class="container pt-4">
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                <div class="card shadow-lg">
+                    <div class="card-header">
+                        <div class="card-group">
+                            <div class="col-md-6 text-left"><h4>Site List</h4></div>
+                            <div class="col-md-6 text-right">
+                                <a asp-action="Create" class="btn btn-primary btn-sm">
+                                    <span class="glyphicon glyphicon-plus-sign"></span> Add New
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-hover table-bordered">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th width="05%">
+                                        @Html.DisplayNameFor(model => model.SiteID)
+                                    </th>
+                                    <th width="15%">
+                                        @Html.DisplayNameFor(model => model.CustomerID)
+                                    </th>
+                                    <th width="45%">
+                                        @Html.DisplayNameFor(model => model.SiteName)
+                                    </th>
+                                    <th width="15%">
+                                        @Html.DisplayNameFor(model => model.Distance)
+                                    </th>
+                                    <th width="15%" colspan="3">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SiteID)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CustomerID)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SiteName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Distance)
+                                        </td>
+                                        <td>
+                                            <a title="Edit" data-toggle="tooltip" asp-action="Edit" asp-route-id="@item.SiteID">
+                                                <span class="glyphicon glyphicon-pencil text-primary"></span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a title="Details" data-toggle="tooltip" asp-action="Details" asp-route-id="@item.SiteID">
+                                                <span class="glyphicon glyphicon-eye-open text-info"></span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a title="Delete" data-toggle="tooltip" asp-action="Delete" asp-route-id="@item.SiteID">
+                                                <span class="glyphicon glyphicon-trash text-danger"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

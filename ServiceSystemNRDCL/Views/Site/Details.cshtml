@@ -1,0 +1,54 @@
+﻿@model ServiceSystemNRDCL.Models.Site
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="jumbotron text-center bg-white">
+    <div class="container pt-4">
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                <div class="card shadow-lg">
+                    <div class="card-header">
+                        <div class="card-group">
+                            <div class="col-md-6 text-left"><h4>Site Details</h4></div>
+                            <div class="col-md-6 text-right">
+                                <a asp-action="Index">
+                                    <span class="glyphicon glyphicon-circle-arrow-left"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <dl class="row">
+                            <dt class="col-sm-5 text-left">
+                                @Html.DisplayNameFor(model => model.CustomerID)
+                            </dt>
+                            <dd class="col-sm-6 text-left">
+                                @Html.DisplayFor(model => model.CustomerID)
+                            </dd>
+                            <dt class="col-sm-1"></dt>
+                            <dt class="col-sm-5 text-left">
+                                @Html.DisplayNameFor(model => model.SiteName)
+                            </dt>
+                            <dd class="col-sm-6 text-left">
+                                @Html.DisplayFor(model => model.SiteName)
+                            </dd>
+                            <dd class="col-sm-1">
+                                <a title="Delete" data-toggle="tooltip" asp-action="Edit" asp-route-id="@Model.SiteID">
+                                    <span class="glyphicon glyphicon-pencil text-info"></span>
+                                </a>
+                            </dd>
+                            <dt class="col-sm-5 text-left">
+                                @Html.DisplayNameFor(model => model.Distance)
+                            </dt>
+                            <dd class="col-sm-6 text-left">
+                                @Html.DisplayFor(model => model.Distance)
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
