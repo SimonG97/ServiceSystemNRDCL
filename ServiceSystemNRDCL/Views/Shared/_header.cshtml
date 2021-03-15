@@ -1,42 +1,35 @@
-﻿<header>
-    <nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
-        <div class="container">
-
-            <div class="navbar-brand text-light font-weight-bold">
-                <img src="~/Images/Logo.jpg" height="50" width="50" class="rounded-circle" asp-append-version="true" />
-                NRDCL Service System
-            </div>
-
-
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-
-            <div class="collapse navbar-collapse" id="collapsibleNavbar">
-
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-route="HomePage">Home</a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" asp-route="SiteRegistration">Site Registration</a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" asp-route="DepositAdvance">Deposit Advance</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-route="PlaceOrder">Place Order</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-route="ViewOrders">View Orders</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav flex-grow-0">
-                    <partial name="_LoginInfo" />
-                </ul>
-
-            </div>
+﻿
+<header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="navbar-brand text-light font-weight-bold">
+            <img src="~/Images/Logo.jpg" height="50" width="50" class="rounded-circle" asp-append-version="true" />
+            NRDCL Service System
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" asp-route="HomePage">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" asp-route="SiteRegistration">Site Registration</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" asp-route="DepositAdvance">Deposit Advance</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-route="PlaceOrder">Place Order</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-route="ViewOrders">View Orders</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav mt-2 mt-md-0">
+                <partial name="_LoginInfo" />
+            </ul>
         </div>
     </nav>
 </header>
