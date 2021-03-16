@@ -43,14 +43,23 @@ namespace ServiceSystemNRDCL.Repository
                 UserName = customer.CustomerCID
 
             };
-            var result= await _userManager.CreateAsync(user, customer.Password);
+            var result= await _userManager.CreateAsync(user, customer.Password); 
             if (result.Succeeded) {
-                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                if (!string.IsNullOrEmpty(token)) {
-                    await SendEmailComfirmationEmail(user, token);
-                }
+                await GenerateEmailConfirmationTokenAsync(user);
             }
             return result;
+        }
+        //method to get user by email
+        public async Task<ApplicationUser> GetUserByEmailAsync(string email) {
+            return await _userManager.FindByEmailAsync(email);
+        }
+        //method to send confirmation email 
+        public async Task GenerateEmailConfirmationTokenAsync(ApplicationUser user) {
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            if (!string.IsNullOrEmpty(token))
+            {
+                await SendEmailComfirmationEmail(user, token);
+            }
         }
 
         //checking if the cid is already registered

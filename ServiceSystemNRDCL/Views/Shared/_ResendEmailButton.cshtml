@@ -1,0 +1,9 @@
+﻿@model LogInModel
+<form asp-action="ConfirmEmail">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Email" /><hr />
+    <p class="text-danger">Did not get email or deleted the mail?</p>
+    <div class="form-group">
+        <input type="submit" value="Resend Mail" class="btn btn-primary" />
+    </div>
+</form>

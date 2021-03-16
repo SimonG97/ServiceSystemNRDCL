@@ -1,0 +1,19 @@
+﻿
+ @if (ViewBag.Registered==true) { 
+ if (ViewBag.EmailSent==true)
+    {
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Email has been resent! You have to confirm email to log in !</strong><br />
+    <partial name="_ResendEmailButton" />
+</div>
+    }
+    else
+    {
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>You have Successfully registered as customer! You have to confirm email to log in !</strong><br />
+    <partial name="_ResendEmailButton" />
+</div>
+
+    }
+
+}

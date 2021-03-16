@@ -117,7 +117,7 @@ namespace ServiceSystemNRDCL.Controllers
                         return View(customer);
                     }
                     ModelState.Clear();
-                    ViewBag.success = result.Succeeded;
+                    return RedirectToAction("ConfirmEmail",new {email=customer.Email});
                     
                 }
                 else { 
@@ -129,15 +129,49 @@ namespace ServiceSystemNRDCL.Controllers
 
         //method to show that user has confirmed email
         [HttpGet("confirm-email")]
-        public async Task<IActionResult> ConfirmEmail(string uid, string token)
+        public async Task<IActionResult> ConfirmEmail(string uid, string token, string email)
         {
+            LogInModel model = new LogInModel
+            {
+                Email = email
+            };
             if (!string.IsNullOrEmpty(uid) && !string.IsNullOrEmpty(token))
             {
                 token = token.Replace(" ", "+");
                 var result = await _accountRepository.ConfirmEmailAsync(uid,token);
-                ViewBag.confirmEmail = result.Succeeded;
+                if (result.Succeeded) {
+                    ViewBag.EmailVerified = true;
+                    return View("LogIn");
+                }
             }
-            return View("LogIn");
+            ViewBag.Registered = true;
+            return View("RegisterCustomer");
+
+        }
+
+        //method to show that user has confirmed email
+        [HttpPost("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail(LogInModel model)
+        {
+            var user = await _accountRepository.GetUserByEmailAsync(model.Email);
+            if (user != null)
+            {
+                //checking if the user has already confirmed the email
+                if (user.EmailConfirmed)
+                {
+                    ViewBag.EmailVerified = true;
+                    return View("LogIn");
+                }
+                await _accountRepository.GenerateEmailConfirmationTokenAsync(user);
+                ViewBag.Registered = true;
+                ViewBag.EmailSent = true;
+                ModelState.Clear();
+                
+            }
+            else {
+                ModelState.AddModelError("", "Something went wrong.");
+            }
+            return View("RegisterCustomer");
 
         }
 

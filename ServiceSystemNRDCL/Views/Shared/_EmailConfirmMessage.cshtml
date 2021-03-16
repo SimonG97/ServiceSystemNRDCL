@@ -1,4 +1,5 @@
-﻿@if (ViewBag.confirmEmail == true)
+﻿@model LogInModel
+@if (ViewBag.EmailVerified==true)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <strong>You have successfully confirmed the email. Log-in to avail the services!!!</strong><br />
@@ -7,7 +8,7 @@
         </button>
     </div>
 }
-else if(ViewBag.confirmEmail==false)
+else if(ViewBag.EmailVerified==false)
 {
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <strong>Something went wrong or your token has been expired!!!</strong><br />
