@@ -15,7 +15,7 @@
                     </div>
                     <div class="card-body">
                         <form method="post" asp-action="LogIn" asp-controller="Home">
-                           
+
                             <div class="form-group row">
                                 <label asp-for="CID" class="col-md-5 col-form-label form-control-label"></label>
                                 <div class="col-md-6">
@@ -32,7 +32,7 @@
                                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 </div>
                             </div>
-                            
+
 
                             <div class="form-group form-check row mt-5">
                                 <label asp-for="RememberMe" class="form-check-label col-md-auto"></label>
@@ -45,6 +45,9 @@
                                 <a asp-action="RegisterCustomer" class="btn btn-outline-secondary">Register</a>
                                 <input type="submit" value="Log In" class="btn btn-primary" />
 
+                            </div>
+                            <div class="form-group form-check row mt-5">
+                                <p><a  asp-action="ForgotPassword" asp-controller="Home"><u>Forgot password?</u></a></p>
                             </div>
 
                         </form>

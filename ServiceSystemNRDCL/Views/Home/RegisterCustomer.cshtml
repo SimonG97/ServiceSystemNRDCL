@@ -7,16 +7,7 @@
     <div class="container pt-5">
         <div class="row">
             <div class="col-md-5 mx-auto">
-                @if (ViewBag.success == true)
-                {
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>You have Succesfully Registered As Customer! You have to confirm email to log in!</strong><br />
-                        
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                }
+             <partial name="_EmailConfirmSentMessage" />
                 @if (ViewBag.present==true)
                 {
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">

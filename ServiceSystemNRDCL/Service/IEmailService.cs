@@ -7,5 +7,6 @@ namespace ServiceSystemNRDCL.Service
     {
         
         Task SendEmailConfirmation(UserEmailOptions userEmailOptions);
+        Task SendForgotPasswordEmail(UserEmailOptions userEmailOptions);
     }
 }

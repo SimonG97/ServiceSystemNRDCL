@@ -18,5 +18,6 @@ namespace ServiceSystemNRDCL.Models
 
         [Display(Name ="Remember me")]
         public bool RememberMe { get; set; }
+        public string Email { get; set; }
     }
 }

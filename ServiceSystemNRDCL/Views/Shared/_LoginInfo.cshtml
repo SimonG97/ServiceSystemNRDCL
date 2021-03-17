@@ -2,11 +2,6 @@
 @if (_signInManager.IsSignedIn(User))
 {
     <li class="nav-item dropdown rounded  ">
-        @*<a class="nav-link dropdown-toggle text-white" data-toggle=>Welcome! @User.FindFirst("FirstName").Value</a>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" asp-controller="Customer" asp-action="LogOut">Log Out</a>
-            <a class="dropdown-item" asp-controller="Customer" asp-action="ChangePassword">Change Password</a>
-        </div>*@ 
         <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Welcome! @User.FindFirst("FirstName").Value
 </button>
