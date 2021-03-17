@@ -39,7 +39,7 @@ namespace ServiceSystemNRDCL.Repository
             return true;
         }
 
-        public async Task<Site> FindByID(int id)
+        public async Task<Site> FindByID(int? id)
         {
             return await _context.Sites.FirstOrDefaultAsync(m => m.SiteID == id);
         }

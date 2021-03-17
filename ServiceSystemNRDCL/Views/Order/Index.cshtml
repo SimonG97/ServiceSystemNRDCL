@@ -1,0 +1,181 @@
+﻿@model ServiceSystemNRDCL.Models.Order
+
+@{
+    ViewData["Title"] = "Create";
+    int OrderID = Model == null ? 0 : Model.OrderID;
+}
+
+<div class="jumbotron text-center bg-white">
+    <div class="container pt-4">
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                <div class="card shadow-lg">
+                    <div class="card-header">
+                        <div class="card-group">
+                            <div class="col-md-6 text-left"><h4>Site List</h4></div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" asp-action="Index" asp-controller="Order">
+                            @if (ViewBag.Status == true)
+                            {
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <span asp-validation-for="OrderID" class="text-danger"></span><br />
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            }
+                            <input type="hidden" name="OrderID" id="OrderID" value="@OrderID" />
+                            <div class="form-group row">
+                                <label asp-for="CustomerCID" class="col-md-2 col-form-label required"></label>
+                                <div class="col-md-6 text-left">
+                                    <input class="form-control" asp-for="CustomerCID" readonly value="@ViewBag.CustomerID">
+                                    <span asp-validation-for="CustomerCID" class="text-danger" id="CustomerCIDMsg"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="SiteID" class="col-md-2 col-form-label required"></label>
+                                <div class="col-md-6 text-left">
+                                    <select class="form-control" asp-for="SiteID" asp-items="@ViewBag.SiteDropdownList"></select>
+                                    <span asp-validation-for="SiteID" class="text-danger" id="SiteIDMsg"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="ProductID" class="col-md-2 col-form-label required"></label>
+                                <div class="col-md-6 text-left">
+                                    <select class="form-control" asp-for="ProductID" asp-items="@ViewBag.ProductDropdownList"></select>
+                                    <span asp-validation-for="ProductID" class="text-danger" id="ProductIDMsg"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Quantity" class="col-md-2 col-form-label required"></label>
+                                <div class="col-md-6 text-left">
+                                    <input class="form-control" asp-for="Quantity" autocomplete="off" value="@ViewBag.Quantity">
+                                    <span asp-validation-for="Quantity" class="text-danger" id="QuantityMsg"></span>
+                                </div>
+                                <a id="calculateAmount" style="padding-top: 7px;">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </a>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="PriceAmount" class="col-md-2 col-form-label required"></label>
+                                <div class="col-md-6 text-left">
+                                    <input class="form-control" asp-for="PriceAmount" readonly value="">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="TansportAmount" class="col-md-2 col-form-label required"></label>
+                                <div class="col-md-6 text-left">
+                                    <input class="form-control" asp-for="TansportAmount" readonly value="">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="AdvanceBalance" class="col-md-2 col-form-label required"></label>
+                                <div class="col-md-6 text-left">
+                                    <input class="form-control" asp-for="AdvanceBalance" readonly value="">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label"></label>
+                                <div class="col-md-2">
+                                    <input type="submit" value="Save" class="col-md-12 btn btn-primary" />
+                                </div>
+                                <div class="col-md-2">
+                                    <a asp-action="Index" asp-route-id="" asp-controller="Order" class="col-md-12 btn btn-primary">
+                                        Reset
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            $('#calculateAmount').on('click', function () {
+                var customerCID = $('#CustomerCID').val();
+                var siteID = $('#SiteID').val();
+                var productID = $('#ProductID').val();
+                var quantity = $('#Quantity').val();
+
+                $('#PriceAmount').val('');
+                $('#TansportAmount').val('');
+                $('#AdvanceBalance').val('');
+
+                if (_validateRequiredData(customerCID, siteID, productID, quantity, true)) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '@Url.Action("Calculate")',
+                        data: {
+                            customerCID: customerCID, siteID: siteID, productID: productID, quantity: quantity
+                        },
+                        success: function (res) {
+                            if (res.status == 1) {
+                                $('#PriceAmount').val(res.responseData.priceAmount.toFixed(2));
+                                $('#TansportAmount').val(res.responseData.tansportAmount.toFixed(2));
+                                $('#AdvanceBalance').val(res.responseData.advanceBalance.toFixed(2));
+                            } else {
+                                $('#MessageModalButton').click();
+                                $('#exampleModalLabel').text('Warning Message');
+                                $('#messageID').empty().append(res.message);
+                            }
+                        }, error: function (error) {
+                            $('#MessageModalButton').click();
+                            $('#exampleModalLabel').text('Error Message');
+                            $('#messageID').text('System encountered error.');
+                        }
+                    });
+                }
+            });
+
+            function _validateRequiredData(customerCID, siteID, productID, quantity, condition) {
+                if (customerCID == '' || customerCID == null) {
+                    condition = false;
+                    $('#CustomerCIDMsg').text('Customer CID is mandatory.');
+                }
+
+                if (siteID == null || siteID == 0 || siteID == '') {
+                    condition = false;
+                    $('#SiteIDMsg').text('Site is mandatory.');
+                }
+
+                if (productID == null || productID == 0 || productID == '') {
+                    condition = false;
+                    $('#ProductIDMsg').text('Product is mandatory.');
+                }
+
+                if (quantity == null || quantity == 0 || quantity == '') {
+                    condition = false;
+                    $('#QuantityMsg').text('Quantity is mandatory.');
+                }
+                return condition;
+            }
+        });
+    </script>
+}
+
+<button id="MessageModalButton" data-toggle="modal" data-target="#MessageModal" class="hidden"></button>
+
+<div class="modal fade" id="MessageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span id="messageID"></span>
+            </div>
+        </div>
+    </div>
+</div>

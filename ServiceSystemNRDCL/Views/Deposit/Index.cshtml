@@ -1,0 +1,114 @@
+﻿@model ServiceSystemNRDCL.Models.Deposit;
+
+@{
+    ViewData["Title"] = "Index";
+    IEnumerable<Deposit> DepositList = ViewData["DepositList"] as IEnumerable<Deposit>;
+    int SerialNo = 1;
+    int DepositID = Model == null ? 0 : Model.DepositID;
+}
+
+<div class="jumbotron text-center bg-white">
+    <div class="container pt-4">
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                <div class="card shadow-lg">
+                    <div class="card-header">
+                        <div class="card-group">
+                            <div class="col-md-6 text-left"><h4>Deposit List</h4></div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @if (ViewBag.Status == true)
+                        {
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>Deposite advance @ViewBag.Message Successfully!</strong><br />
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        }
+                        <form method="post" asp-action="Index" asp-controller="Deposit">
+                            <input type="hidden" name="DepositID" id="DepositID" value="@DepositID" />
+                            <div class="form-group row">
+                                <label asp-for="CustomerID" class="col-md-2 col-form-label required"></label>
+                                <div class="col-md-6 text-left">
+                                    <input class="form-control" asp-for="CustomerID" readonly value="@ViewBag.CustomerID">
+                                    <span asp-validation-for="CustomerID" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Balance" class="col-md-2 col-form-label required"></label>
+                                <div class="col-md-6 text-left">
+                                    <input class="form-control" asp-for="Balance">
+                                    <span asp-validation-for="Balance" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label"></label>
+                                <div class="col-md-2">
+                                    <input type="submit" value="Save" class="col-md-12 btn btn-primary" />
+                                </div>
+                                <div class="col-md-2">
+                                    <a asp-action="Index" asp-route-id="" asp-controller="Deposit" class="col-md-12 btn btn-primary">
+                                        Reset
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                        <table class="table table-hover table-bordered">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th width="05%">
+                                        Sl
+                                    </th>
+                                    <th width="15%">
+                                        @Html.DisplayNameFor(model => model.CustomerID)
+                                    </th>
+                                    <th width="65%">
+                                        @Html.DisplayNameFor(model => model.Balance)
+                                    </th>
+                                    <th width="15%" colspan="2">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in @DepositList)
+                                {
+                                    <tr>
+                                        <td>
+                                            @SerialNo
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CustomerID)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Balance)
+                                        </td>
+                                        <td>
+                                            <a title="Edit" data-toggle="tooltip" asp-action="Edit" asp-route-id="@item.CustomerID">
+                                                <span class="glyphicon glyphicon-pencil text-primary"></span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a title="Delete" data-toggle="modal" data-target="#DepositModal_@item.CustomerID">
+                                                <span class="glyphicon glyphicon-trash text-danger"></span>
+                                            </a>
+                                            @await Html.PartialAsync("_DeleteConfirmPartial", new ModelData
+                                       {
+                                           Title = "deposit advance",
+                                           ControllerName = "Deposit",
+                                           ActionName = "Delete",
+                                           ID = @item.CustomerID,
+                                           ModalIDName = "DepositModal_" + @item.CustomerID
+                                       })
+                                        </td>
+                                    </tr>
+                                    SerialNo++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

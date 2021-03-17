@@ -1,7 +1,10 @@
-﻿@model IEnumerable<ServiceSystemNRDCL.Models.Site>
+﻿@model ServiceSystemNRDCL.Models.Site
 
 @{
     ViewData["Title"] = "Sites";
+    IEnumerable<Site> SiteList = ViewData["SiteList"] as IEnumerable<Site>;
+    int serialNo = 1;
+    int SiteID = Model == null ? 0 : Model.SiteID;
 }
 
 <div class="jumbotron text-center bg-white">
@@ -12,19 +15,60 @@
                     <div class="card-header">
                         <div class="card-group">
                             <div class="col-md-6 text-left"><h4>Site List</h4></div>
-                            <div class="col-md-6 text-right">
-                                <a asp-action="Create" class="btn btn-primary btn-sm">
-                                    <span class="glyphicon glyphicon-plus-sign"></span> Add New
-                                </a>
-                            </div>
                         </div>
                     </div>
                     <div class="card-body">
+                        @if (ViewBag.Status == true)
+                        {
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>Site @ViewBag.Message Successfully!</strong><br />
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        }
+
+                    <form method="post" asp-action="Index" asp-controller="Site">
+                        <input type="hidden" name="SiteID" id="SiteID" value="@SiteID" />
+                        <div class="form-group row">
+                            <label asp-for="CustomerID" class="col-md-2 col-form-label required"></label>
+                            <div class="col-md-6 text-left">
+                                <input class="form-control" asp-for="CustomerID" readonly value="@ViewBag.CustomerID">
+                                <span asp-validation-for="CustomerID" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="SiteName" class="col-md-2 col-form-label required"></label>
+                            <div class="col-md-6 text-left">
+                                <input class="form-control" asp-for="SiteName">
+                                <span asp-validation-for="SiteName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="Distance" class="col-md-2 col-form-label required"></label>
+                            <div class="col-md-6 text-left">
+                                <input class="form-control" asp-for="Distance" autocomplete="off">
+                                <span asp-validation-for="Distance" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label"></label>
+                            <div class="col-md-2">
+                                <input type="submit" value="Save" class="col-md-12 btn btn-primary" />
+                            </div>
+                            <div class="col-md-2">
+                                <a asp-action="Index" asp-route-id="" asp-controller="Site" class="col-md-12 btn btn-primary">
+                                    Reset
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+
                         <table class="table table-hover table-bordered">
                             <thead class="thead-light">
                                 <tr>
                                     <th width="05%">
-                                        @Html.DisplayNameFor(model => model.SiteID)
+                                        Sl
                                     </th>
                                     <th width="15%">
                                         @Html.DisplayNameFor(model => model.CustomerID)
@@ -39,11 +83,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in Model)
+                                @foreach (var item in @SiteList)
                                 {
                                     <tr>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.SiteID)
+                                            @serialNo
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.CustomerID)
@@ -60,16 +104,20 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <a title="Details" data-toggle="tooltip" asp-action="Details" asp-route-id="@item.SiteID">
-                                                <span class="glyphicon glyphicon-eye-open text-info"></span>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a title="Delete" data-toggle="tooltip" asp-action="Delete" asp-route-id="@item.SiteID">
+                                            <a title="Delete" data-toggle="modal" data-target="#SiteModal_@item.SiteID">
                                                 <span class="glyphicon glyphicon-trash text-danger"></span>
                                             </a>
+                                            @await Html.PartialAsync("_DeleteConfirmPartial", new ModelData
+                                       {
+                                           Title = "site",
+                                           ControllerName = "Site",
+                                           ActionName = "Delete",
+                                           ID = @item.SiteID,
+                                           ModalIDName = "SiteModal_" + @item.SiteID
+                                       })
                                         </td>
                                     </tr>
+                                    serialNo++;
                                 }
                             </tbody>
                         </table>

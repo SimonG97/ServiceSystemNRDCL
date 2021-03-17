@@ -1,19 +1,19 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ServiceSystemNRDCL.Models;
 using ServiceSystemNRDCL.Repository;
-using System.Threading.Tasks;
 
 namespace ServiceSystemNRDCL.Controllers
 {
-    public class SiteController : Controller
+    public class DepositController : Controller
     {
-        private readonly ISiteRepository siteRepository;
+        private readonly IDepositRepository _depositRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public SiteController(ISiteRepository siteRepository, UserManager<ApplicationUser> userManager)
+        public DepositController(IDepositRepository depositRepository, UserManager<ApplicationUser> userManager)
         {
-            this.siteRepository = siteRepository;
+            _depositRepository = depositRepository;
             _userManager = userManager;
         }
 
@@ -21,10 +21,11 @@ namespace ServiceSystemNRDCL.Controllers
         public async Task<IActionResult> Index(int? id, int? status)
         {
             var userID = _userManager.GetUserId(User);
-            Site site = null;
+            Deposit deposit = null;
             if (id != null && id > 0)
             {
-                site = await siteRepository.FindByID(id);
+                deposit = await _depositRepository.FindByID(userID);
+                deposit.DepositID = 1;
             }
 
             if (status != null && status > 0)
@@ -32,48 +33,48 @@ namespace ServiceSystemNRDCL.Controllers
                 ViewBag.Status = true;
                 ViewBag.Message = status == 1 ? "created" : "updated";
             }
-            ViewData["SiteList"] = await siteRepository.FindAll(userID);
+            ViewData["DepositList"] = await _depositRepository.FindAll(userID);
             ViewBag.CustomerID = userID;
-            return View(site);
+            return View(deposit);
         }
 
         // POST: Sites/Create
         [HttpPost]
-        public async Task<IActionResult> Index([Bind("SiteID,CustomerID,SiteName,Distance")] Site site)
+        public async Task<IActionResult> Index([Bind("CustomerID,LastAmount,Balance,DepositID")] Deposit deposit)
         {
             var userID = _userManager.GetUserId(User);
             if (ModelState.IsValid)
             {
-                var status = site.SiteID == 0 ? 1 : 2;
+                var status = deposit.DepositID == 0 ? 1 : 2;
 
-                site.CustomerID = userID;
-                if (site.SiteID == 0)
+                deposit.CustomerID = userID;
+                if (deposit.DepositID == 0)
                 {
-                    await siteRepository.Add(site);
+                    await _depositRepository.Add(deposit);
                 }
                 else
                 {
-                    await siteRepository.Update(site);
+                    await _depositRepository.Update(deposit);
                 }
                 return RedirectToAction(nameof(Index), new { id = 0, status });
             }
-            ViewData["ProductList"] = await siteRepository.FindAll(userID);
-            return View(site);
+            ViewData["DepositList"] = await _depositRepository.FindAll(userID);
+            return View(deposit);
         }
 
         // GET: Products/Edit/5
         public IActionResult Edit(int id)
         {
-            return RedirectToAction(nameof(Index), new { id });
+            return RedirectToAction(nameof(Index), new { id = 1 });
         }
 
         // POST: Products/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
-            var site = await siteRepository.FindByID(id);
-            await siteRepository.Remove(site);
+            var site = await _depositRepository.FindByID(id);
+            await _depositRepository.Remove(site);
             return RedirectToAction(nameof(Index), new { id = 0, status = 0 });
         }
     }

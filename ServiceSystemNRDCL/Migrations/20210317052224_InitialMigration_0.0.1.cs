@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ServiceSystemNRDCL.Migrations
 {
-    public partial class AddedCustomerOrders : Migration
+    public partial class InitialMigration_001 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -65,6 +65,65 @@ namespace ServiceSystemNRDCL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CustomerOrders", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Deposits",
+                columns: table => new
+                {
+                    CustomerID = table.Column<string>(type: "text", nullable: false),
+                    LastAmount = table.Column<double>(type: "double precision", nullable: false),
+                    Balance = table.Column<double>(type: "double precision", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Deposits", x => x.CustomerID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    OrderID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CustomerCID = table.Column<string>(type: "character varying(11)", maxLength: 11, nullable: false),
+                    PriceAmount = table.Column<double>(type: "double precision", nullable: false),
+                    TansportAmount = table.Column<double>(type: "double precision", nullable: false),
+                    AdvanceBalance = table.Column<double>(type: "double precision", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.OrderID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    ProductID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ProductName = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
+                    Price = table.Column<double>(type: "double precision", nullable: false),
+                    Rate = table.Column<double>(type: "double precision", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.ProductID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sites",
+                columns: table => new
+                {
+                    SiteID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CustomerID = table.Column<string>(type: "character varying(11)", maxLength: 11, nullable: false),
+                    SiteName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Distance = table.Column<double>(type: "double precision", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sites", x => x.SiteID);
                 });
 
             migrationBuilder.CreateTable(
@@ -230,6 +289,18 @@ namespace ServiceSystemNRDCL.Migrations
 
             migrationBuilder.DropTable(
                 name: "CustomerOrders");
+
+            migrationBuilder.DropTable(
+                name: "Deposits");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "Sites");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

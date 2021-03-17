@@ -15,7 +15,7 @@ namespace ServiceSystemNRDCL.Models
         public string CustomerID { get; set; }
 
         [Required(ErrorMessage = "Site name is mandatory.")]
-        [StringLength(25, MinimumLength = 3)]
+        [StringLength(100, MinimumLength = 3)]
         [Display(Name = "Site Name")]
         public string SiteName { get; set; }
 
@@ -26,6 +26,7 @@ namespace ServiceSystemNRDCL.Models
         public double Distance { get; set; }
 
         public Site() { }
+
         public Site(string CustomerID)
         {
             this.CustomerID = CustomerID;

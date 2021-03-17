@@ -1,0 +1,129 @@
+﻿@model ServiceSystemNRDCL.Models.Product;
+
+@{
+    ViewData["Title"] = "Index";
+    IEnumerable<Product> ProductList = ViewData["ProductList"] as IEnumerable<Product>;
+    int serialNo = 1;
+    int ProductID = Model == null ? 0 : Model.ProductID;
+}
+
+<div class="jumbotron text-center bg-white">
+    <div class="container pt-4">
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                <div class="card shadow-lg">
+                    <div class="card-header">
+                        <div class="card-group">
+                            <div class="col-md-6 text-left"><h4>Product List</h4></div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @if (ViewBag.Status == true)
+                        {
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>Product @ViewBag.Message Successfully!</strong><br />
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        }
+                        <form method="post" asp-action="Index" asp-controller="Product">
+                            <input type="hidden" name="ProductID" id="ProductID" value="@ProductID"/>
+                            <div class="form-group row">
+                                <label asp-for="ProductName" class="col-md-2 col-form-label required"></label>
+                                <div class="col-md-6 text-left">
+                                    <input class="form-control" asp-for="ProductName">
+                                    <span asp-validation-for="ProductName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Price" class="col-md-2 col-form-label required"></label>
+                                <div class="col-md-6 text-left">
+                                    <input class="form-control" asp-for="Price" autocomplete="off">
+                                    <span asp-validation-for="Price" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Rate" class="col-md-2 col-form-label required"></label>
+                                <div class="col-md-6 text-left">
+                                    <input class="form-control" asp-for="Rate" autocomplete="off">
+                                    <span asp-validation-for="Rate" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label"></label>
+                                <div class="col-md-2">
+                                    <input type="submit" value="Save" class="col-md-12 btn btn-primary" />
+                                </div>
+                                <div class="col-md-2">
+                                    <a asp-action="Index" asp-route-id="" asp-controller="Product" class="col-md-12 btn btn-primary">
+                                        Reset
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+
+                        <table class="table table-hover table-bordered">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th width="05%">
+                                        Sl
+                                    </th>
+                                    <th width="35%">
+                                        @Html.DisplayNameFor(model => model.ProductName)
+                                    </th>
+                                    <th width="25%">
+                                        @Html.DisplayNameFor(model => model.Price)
+                                    </th>
+                                    <th width="25%">
+                                        @Html.DisplayNameFor(model => model.Rate)
+                                    </th>
+                                    <th width="10%" colspan="2">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in @ProductList)
+                                {
+                                    <tr>
+                                        <td>
+                                            @serialNo
+                                        </td>
+                                        <td class="text-left">
+                                            @Html.DisplayFor(modelItem => item.ProductName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Price)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Rate)
+                                        </td>
+                                        <td>
+                                            <a asp-controller="Product" asp-action="Edit" asp-route-id="@item.ProductID">
+                                                <span class="glyphicon glyphicon-pencil text-primary"></span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a title="Delete" data-toggle="modal" data-target="#ProductModal_@item.ProductID">
+                                                <span class="glyphicon glyphicon-trash text-danger"></span>
+                                            </a>
+                                            @await Html.PartialAsync("_DeleteConfirmPartial", new ModelData
+                                       {
+                                           Title = "product",
+                                           ControllerName = "Product",
+                                           ActionName = "Delete",
+                                           ID = @item.ProductID,
+                                           ModalIDName = "ProductModal_" + @item.ProductID
+                                       })
+                                        </td>
+                                    </tr>
+                                    serialNo++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
