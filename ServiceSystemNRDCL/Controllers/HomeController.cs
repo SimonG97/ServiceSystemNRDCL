@@ -149,7 +149,7 @@ namespace ServiceSystemNRDCL.Controllers
 
         }
 
-        //method to show that user has confirmed email
+        //method to resend the confirmation mail
         [HttpPost("confirm-email")]
         public async Task<IActionResult> ConfirmEmail(LogInModel model)
         {
@@ -174,6 +174,71 @@ namespace ServiceSystemNRDCL.Controllers
             return View("RegisterCustomer");
 
         }
+
+        [HttpGet("fogot-password")]
+        //method for forgot password
+        public IActionResult ForgotPassword() {
+            return View();
+        }
+
+        [HttpPost("fogot-password")]
+        //method for forgot password
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordModel forgotPassword)
+        {
+            if (ModelState.IsValid) {
+                var user =await _accountRepository.GetUserByEmailAsync(forgotPassword.Email);
+                if (user != null)
+                {
+                    await _accountRepository.GenerateForgotPasswordTokenAsync(user);
+                    ModelState.Clear();
+                    forgotPassword.EmailSent = true;
+                }
+                else {
+                    ModelState.AddModelError("Email","Please enter a registered email id!");
+                }
+            }
+            return View(forgotPassword);
+        }
+
+        [HttpGet("reset-password")]
+        //method for resetting password after user has forgotten the password
+        public IActionResult ResetPassword(string uid, string token)
+        {
+            ResetPasswordModel resetPasswordModel = new ResetPasswordModel
+            {
+                Token=token,
+                UserId=uid
+            };
+            return View(resetPasswordModel);
+        }
+
+        //post method for reset password
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordModel resetPassword)
+        {
+            if(ModelState.IsValid){
+                resetPassword.Token = resetPassword.Token.Replace(" ", "+");
+                var result =await _accountRepository.ResetPasswordAsync(resetPassword);
+                if (result.Succeeded) {
+                    ModelState.Clear();
+                    resetPassword.IsSuccess = true;
+                    return View(resetPassword);
+                }
+                ViewBag.PassWordErrors = new List<string>();
+                foreach (var errorMessage in result.Errors)
+                {
+                    if (errorMessage.Description.Contains("Passwords"))
+                    {
+                        ViewBag.PasswordErrors.Add(errorMessage.Description);
+                    }
+                    
+                }
+
+
+            }
+            return View(resetPassword);
+        }
+
 
 
 

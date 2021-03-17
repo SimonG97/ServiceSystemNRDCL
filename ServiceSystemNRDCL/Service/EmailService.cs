@@ -27,6 +27,14 @@ namespace ServiceSystemNRDCL.Service
             userEmailOptions.Body = UpdatePlaceHolders(GetEmailBody("EmailConfirm"), userEmailOptions.PlaceHolder);
             await SendEmail(userEmailOptions);
         }
+
+        //method to send to forgot password mail.
+        public async Task SendForgotPasswordEmail(UserEmailOptions userEmailOptions)
+        {
+            userEmailOptions.Subject = UpdatePlaceHolders("Hello {{UserName}}, reset your password!!!", userEmailOptions.PlaceHolder);
+            userEmailOptions.Body = UpdatePlaceHolders(GetEmailBody("ForgotPasswordEmail"), userEmailOptions.PlaceHolder);
+            await SendEmail(userEmailOptions);
+        }
         private async Task SendEmail(UserEmailOptions userEmailOptions)
         {
             //adding subject,body and from fileds in the mail message class

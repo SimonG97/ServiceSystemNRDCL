@@ -53,12 +53,22 @@ namespace ServiceSystemNRDCL.Repository
         public async Task<ApplicationUser> GetUserByEmailAsync(string email) {
             return await _userManager.FindByEmailAsync(email);
         }
-        //method to send confirmation email 
+        //method to generate token for email confirmation
         public async Task GenerateEmailConfirmationTokenAsync(ApplicationUser user) {
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             if (!string.IsNullOrEmpty(token))
             {
                 await SendEmailComfirmationEmail(user, token);
+            }
+        }
+
+        //method to generate forgot password token
+        public async Task GenerateForgotPasswordTokenAsync(ApplicationUser user)
+        {
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            if (!string.IsNullOrEmpty(token))
+            {
+                await SendForgotPasswordEmail(user, token);
             }
         }
 
@@ -109,6 +119,33 @@ namespace ServiceSystemNRDCL.Repository
             await _emailService.SendEmailConfirmation(options);
 
         }
+
+        //Method to send forgot password mail
+        private async Task SendForgotPasswordEmail(ApplicationUser user, string token)
+        {
+            string appDomain = _configuration.GetSection("Application:AppDomain").Value;
+            string confirmationLink = _configuration.GetSection("Application:ForgotPassword").Value;
+            UserEmailOptions options = new UserEmailOptions
+            {
+                ToEmails = new List<string>() { user.Email },
+                PlaceHolder = new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("{{UserName}}",user.FirstName),
+                    new KeyValuePair<string, string>("{{link}}",string.Format(appDomain+confirmationLink,user.Id,token))
+                }
+
+            };
+            await _emailService.SendForgotPasswordEmail(options);
+
+        }
+
+        //method to reset password
+        public async Task<IdentityResult> ResetPasswordAsync(ResetPasswordModel resetPassword) {
+            return await _userManager.ResetPasswordAsync(await _userManager.FindByIdAsync(resetPassword.UserId),
+                resetPassword.Token,resetPassword.NewPassword);
+        }
+
+
 
     }
 }
