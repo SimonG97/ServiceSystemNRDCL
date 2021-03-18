@@ -1,20 +1,22 @@
 ﻿@inject Microsoft.AspNetCore.Identity.SignInManager<ApplicationUser> _signInManager
 @if (_signInManager.IsSignedIn(User))
 {
-    <li class="nav-item dropdown rounded  ">
-        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Welcome! @User.FindFirst("FirstName").Value
-</button>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" asp-controller="Customer" asp-action="ChangePassword">Change Password</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" asp-controller="Customer" asp-action="LogOut">Log Out</a>
-        </div>
-    </li>
+<li class="nav-item dropdown rounded  ">
+    @if(User.IsInRole("Admin")){
+    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Welcome! Admin
+    </button>
+    }
+    else{
+    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Welcome! @User.FindFirst("FirstName").Value
+    </button>
+    }
+    <div class="dropdown-menu">
+        <a class="dropdown-item" asp-controller="Customer" asp-action="ChangePassword">Change Password</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" asp-controller="Customer" asp-action="LogOut">Log Out</a>
+    </div>
+</li>
 }
-else
-{
-    <li>
-        <a class="btn btn-success" asp-route="Admin">Admin</a>
-    </li>
-}
+

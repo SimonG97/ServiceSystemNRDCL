@@ -10,8 +10,8 @@ using ServiceSystemNRDCL.Data;
 namespace ServiceSystemNRDCL.Migrations
 {
     [DbContext(typeof(CustomerContext))]
-    [Migration("20210316095408_Email")]
-    partial class Email
+    [Migration("20210318144754_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -256,15 +256,73 @@ namespace ServiceSystemNRDCL.Migrations
                     b.Property<string>("CustomerID")
                         .HasColumnType("text");
 
-                    b.Property<decimal>("Balance")
-                        .HasColumnType("numeric");
+                    b.Property<double>("Balance")
+                        .HasColumnType("double precision");
 
-                    b.Property<decimal>("LastAmount")
-                        .HasColumnType("numeric");
+                    b.Property<double>("LastAmount")
+                        .HasColumnType("double precision");
 
                     b.HasKey("CustomerID");
 
                     b.ToTable("Deposits");
+                });
+
+            modelBuilder.Entity("ServiceSystemNRDCL.Models.Order", b =>
+                {
+                    b.Property<int>("OrderID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<double>("AdvanceBalance")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("CustomerCID")
+                        .IsRequired()
+                        .HasMaxLength(11)
+                        .HasColumnType("character varying(11)");
+
+                    b.Property<double>("PriceAmount")
+                        .HasColumnType("double precision");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("integer");
+
+                    b.Property<double>("Quantity")
+                        .HasColumnType("double precision");
+
+                    b.Property<int>("SiteID")
+                        .HasColumnType("integer");
+
+                    b.Property<double>("TansportAmount")
+                        .HasColumnType("double precision");
+
+                    b.HasKey("OrderID");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("ServiceSystemNRDCL.Models.Product", b =>
+                {
+                    b.Property<int>("ProductID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<double>("Price")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
+
+                    b.Property<double>("Rate")
+                        .HasColumnType("double precision");
+
+                    b.HasKey("ProductID");
+
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("ServiceSystemNRDCL.Models.Site", b =>
@@ -284,8 +342,8 @@ namespace ServiceSystemNRDCL.Migrations
 
                     b.Property<string>("SiteName")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("character varying(25)");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("SiteID");
 

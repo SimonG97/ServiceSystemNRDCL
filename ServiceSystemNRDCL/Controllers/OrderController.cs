@@ -6,9 +6,11 @@ using ServiceSystemNRDCL.Repository;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ServiceSystemNRDCL.Controllers
 {
+    [Authorize(Roles ="Admin,Customer")]
     public class OrderController : Controller
     {
         private readonly IOrderRepository _orderRepository;

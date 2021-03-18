@@ -10,8 +10,8 @@ using ServiceSystemNRDCL.Data;
 namespace ServiceSystemNRDCL.Migrations
 {
     [DbContext(typeof(CustomerContext))]
-    [Migration("20210317082329_UpdateOrderMigration_0.0.2")]
-    partial class UpdateOrderMigration_002
+    [Migration("20210318065111_AdminAdded")]
+    partial class AdminAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

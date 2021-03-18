@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ServiceSystemNRDCL.Models;
@@ -6,6 +7,7 @@ using ServiceSystemNRDCL.Repository;
 
 namespace ServiceSystemNRDCL.Controllers
 {
+    [Authorize]
     public class DepositController : Controller
     {
         private readonly IDepositRepository _depositRepository;
@@ -18,6 +20,7 @@ namespace ServiceSystemNRDCL.Controllers
         }
 
         // GET: Sites
+        [Route("Deposit-Advance")]
         public async Task<IActionResult> Index(int? id, int? status)
         {
             var userID = _userManager.GetUserId(User);

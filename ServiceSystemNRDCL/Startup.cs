@@ -98,7 +98,7 @@ namespace ServiceSystemNRDCL
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=LogIn}/{id?}");
-
+                 
             });
         }
     }

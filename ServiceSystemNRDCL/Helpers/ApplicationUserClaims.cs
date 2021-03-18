@@ -22,6 +22,7 @@ namespace ServiceSystemNRDCL.Helpers
             var identity= await base.GenerateClaimsAsync(user);
             //adding a claim to a user
             identity.AddClaim(new Claim("FirstName",user.FirstName ?? ""));
+            identity.AddClaim(new Claim("LastName", user.LastName ?? ""));
             return identity;
         }
 

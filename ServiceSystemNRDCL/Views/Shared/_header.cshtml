@@ -12,21 +12,33 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" asp-route="HomePage">Home</a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" asp-action="Index" asp-controller="Site">Site Registration</a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" asp-action="Index" asp-controller="Deposit">Deposit Advance</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-action="Index" asp-controller="Order">Place Order</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-route="ViewOrders">View Orders</a>
-                </li>
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Product" asp-action="Index">Add Products</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" asp-action="Index" asp-controller="Site">View Orders</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-route="HomePage">Home</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" asp-action="Index" asp-controller="Site">Site Registration</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" asp-action="Index" asp-controller="Deposit">Deposit Advance</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="Index" asp-controller="Order">Place Order</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-route="ViewOrders">View Orders</a>
+                    </li>
+                }
             </ul>
             <ul class="navbar-nav mt-2 mt-md-0">
                 <partial name="_LoginInfo" />

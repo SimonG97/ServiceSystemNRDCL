@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ServiceSystemNRDCL.Models;
 using ServiceSystemNRDCL.Repository;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ServiceSystemNRDCL.Controllers
 {
+    [Authorize]
     public class SiteController : Controller
     {
         private readonly ISiteRepository siteRepository;
