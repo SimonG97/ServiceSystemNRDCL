@@ -14,7 +14,7 @@ namespace ServiceSystemNRDCL.Models
         [Required(ErrorMessage = "Product name is mandatory.")]
         [StringLength(250, MinimumLength = 3)]
         [Display(Name = "Product Name")]
-        [ProductName("some length")]
+        [ProductName("lll")]
         public string ProductName { get; set; }
 
         [Required(ErrorMessage = "Price is mandatory.")]

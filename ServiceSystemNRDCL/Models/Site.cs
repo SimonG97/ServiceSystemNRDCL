@@ -13,12 +13,12 @@ namespace ServiceSystemNRDCL.Models
         [Required(ErrorMessage = "Customer CID is mandatory.")]
         [StringLength(11, MinimumLength = 11, ErrorMessage = "Customer CID must have a minimum and maximum length of 11.")]
         [Display(Name = "Customer CID")]
-        [Remote(action: "VerifyCustomerID", controller: "Site")]
         public string CustomerID { get; set; }
 
         [Required(ErrorMessage = "Site name is mandatory.")]
-        [StringLength(100, MinimumLength = 3)]
+        //[StringLength(100, MinimumLength = 3)]
         [Display(Name = "Site Name")]
+        [Remote(action: "VerifySiteName", controller: "Site")]
         public string SiteName { get; set; }
 
         [Required(ErrorMessage = "Distance is mandatory.")]

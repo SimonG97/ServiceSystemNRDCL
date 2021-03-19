@@ -79,12 +79,24 @@ namespace ServiceSystemNRDCL.Controllers
             return RedirectToAction(nameof(Index), new { id = 0, status = 0 });
         }
 
-        [AcceptVerbs("GET", "POST")]
-        public IActionResult VerifyCustomerID(string CustomerCID)
+        /// <summary>
+        /// To verify the site name min and max length using [Remote] attribute.
+        /// </summary>
+        /// <param name="siteName">Name of the site</param>
+        /// <returns></returns>
+        public IActionResult VerifySiteName(string siteName)
         {
-            if (!string.IsNullOrEmpty(CustomerCID))
+            if (!string.IsNullOrEmpty(siteName))
             {
-                return Json($"Email {CustomerCID} is already in use.");
+                if(siteName.Length < 3)
+                {
+                    return Json("Site name must have a minimum length of 3.");
+                }
+
+                if(siteName.Length > 100)
+                {
+                    return Json("Site name must have a maximum length of 100.");
+                }
             }
 
             return Json(true);
