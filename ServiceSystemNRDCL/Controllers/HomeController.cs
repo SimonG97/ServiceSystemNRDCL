@@ -30,19 +30,25 @@ namespace ServiceSystemNRDCL.Controllers
 
         //view method for Log in page
         [AllowAnonymous]
+        [HttpGet]
         public IActionResult LogIn(string returnUrl)
         {
 
             //checking if the user is authenticated
              if (_userService.IsAuthenticated()) {
-               return RedirectToAction("HomePage", "Customer");
+                if (User.IsInRole("Admin")) {
+                    return RedirectToAction("Index", "Product");
+                }
+                else {
+                    return RedirectToAction("HomePage", "Customer");
+                }
             }
             //checking ig there is return url
             if (!string.IsNullOrEmpty(returnUrl))
             {
                 ViewBag.message = true;
             }
-            return View();
+            return View(returnUrl);
         }
 
         //method to log in as customer
@@ -54,13 +60,20 @@ namespace ServiceSystemNRDCL.Controllers
                var result= await _accountRepository.PasswordSignInAsync(logIn);
                 //checking if the log in succesful
                 if (result.Succeeded) {
+                    //redirecting to admin page if the user is a admin
+                    if (User.IsInRole("Admin"))
+                    {
+                        return RedirectToAction("Index", "Product");
+                    }
                     //checking if there is return URl
-                    if (!string.IsNullOrEmpty(returnUrl)) {
+                    else if (!string.IsNullOrEmpty(returnUrl)) {
                        //redirecting the url below if there is ReturnURL
                         return LocalRedirect(returnUrl);
                     }
                     //redirecting to below URL if there is no return URL
-                    return RedirectToAction("HomePage","Customer");
+                    else {
+                        return RedirectToAction("HomePage", "Customer");
+                    }
                 }
                 if (result.IsNotAllowed)
                 {
@@ -76,7 +89,7 @@ namespace ServiceSystemNRDCL.Controllers
 
 
         //view methood to return the view to register customer
-        public ViewResult RegisterCustomer(bool success = false, bool present=false)
+        public ViewResult Register(bool success = false, bool present=false)
         {
             ViewBag.present = present;
             ViewBag.success = success;
@@ -86,7 +99,7 @@ namespace ServiceSystemNRDCL.Controllers
 
         //post method to register a customer
         [HttpPost]
-        public async Task<IActionResult> RegisterCustomer(CustomerModel customer)
+        public async Task<IActionResult> Register(CustomerModel customer)
         {
             // checking if the model is valid
             if (ModelState.IsValid)
@@ -145,7 +158,7 @@ namespace ServiceSystemNRDCL.Controllers
                 }
             }
             ViewBag.Registered = true;
-            return View("RegisterCustomer");
+            return View("Register");
 
         }
 
@@ -171,7 +184,7 @@ namespace ServiceSystemNRDCL.Controllers
             else {
                 ModelState.AddModelError("", "Something went wrong.");
             }
-            return View("RegisterCustomer");
+            return View("Register");
 
         }
 

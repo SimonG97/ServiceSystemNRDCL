@@ -2,7 +2,7 @@
 
 namespace ServiceSystemNRDCL.Migrations
 {
-    public partial class Email : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

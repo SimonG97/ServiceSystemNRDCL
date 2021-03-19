@@ -16,17 +16,20 @@ namespace ServiceSystemNRDCL.Repository
         private readonly IUserService _userService;
         private readonly IEmailService _emailService;
         private readonly IConfiguration _configuration;
+        private readonly RoleManager<IdentityRole>_roleManager;
+
      
         public AccountRepository(UserManager<ApplicationUser> userManager, 
             SignInManager<ApplicationUser> signInManager,
             IUserService userService, IEmailService emailService,
-            IConfiguration configuration)
+            IConfiguration configuration, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _userService = userService;
             _emailService = emailService;
             _configuration = configuration;
+            _roleManager = roleManager;
         }
 
         //adding new users to database using custom identity
@@ -42,8 +45,22 @@ namespace ServiceSystemNRDCL.Repository
                 Id = customer.CustomerCID,
                 UserName = customer.CustomerCID,
             };
-            var result= await _userManager.CreateAsync(user, customer.Password); 
+            if (!await _roleManager.RoleExistsAsync("Admin"))
+            {
+                await _roleManager.CreateAsync(new IdentityRole("Admin"));
+            }
+
+            var result= await _userManager.CreateAsync(user, customer.Password);
+            //setting roles to users
+            
+
             if (result.Succeeded) {
+              
+
+                if (customer.CustomerCID.Equals("10702001505"))
+                {
+                    await _userManager.AddToRoleAsync(user,"Admin");
+                }
                 await GenerateEmailConfirmationTokenAsync(user);
             }
             return result;

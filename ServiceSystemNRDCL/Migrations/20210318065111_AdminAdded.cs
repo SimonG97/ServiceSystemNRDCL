@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ServiceSystemNRDCL.Migrations
 {
-    public partial class InitialMigration_001 : Migration
+    public partial class AdminAdded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -87,9 +87,12 @@ namespace ServiceSystemNRDCL.Migrations
                     OrderID = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CustomerCID = table.Column<string>(type: "character varying(11)", maxLength: 11, nullable: false),
+                    SiteID = table.Column<int>(type: "integer", nullable: false),
+                    ProductID = table.Column<int>(type: "integer", nullable: false),
                     PriceAmount = table.Column<double>(type: "double precision", nullable: false),
                     TansportAmount = table.Column<double>(type: "double precision", nullable: false),
-                    AdvanceBalance = table.Column<double>(type: "double precision", nullable: false)
+                    AdvanceBalance = table.Column<double>(type: "double precision", nullable: false),
+                    Quantity = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
                 {
