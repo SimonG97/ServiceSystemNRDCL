@@ -28,7 +28,7 @@
 
                     <form method="post" asp-action="Index" asp-controller="Site">
                         <input type="hidden" name="SiteID" id="SiteID" value="@SiteID" />
-                        <div class="form-group row">
+                        <div class="form-group row hidden">
                             <label asp-for="CustomerID" class="col-md-2 col-form-label required"></label>
                             <div class="col-md-6 text-left">
                                 <input class="form-control" asp-for="CustomerID" readonly value="@ViewBag.CustomerID">

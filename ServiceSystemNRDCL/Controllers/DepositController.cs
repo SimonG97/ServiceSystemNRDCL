@@ -20,7 +20,6 @@ namespace ServiceSystemNRDCL.Controllers
         }
 
         // GET: Sites
-        [Route("Deposit-Advance")]
         public async Task<IActionResult> Index(int? id, int? status)
         {
             var userID = _userManager.GetUserId(User);
