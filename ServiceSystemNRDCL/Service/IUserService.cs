@@ -4,5 +4,6 @@
     {
         string GetUserId();
         bool IsAuthenticated();
+        bool IsAdmin();
     }
 }

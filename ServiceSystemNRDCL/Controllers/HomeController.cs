@@ -29,14 +29,14 @@ namespace ServiceSystemNRDCL.Controllers
         }
 
         //view method for Log in page
-        [AllowAnonymous]
+        
         [HttpGet]
         public IActionResult LogIn(string returnUrl)
         {
 
             //checking if the user is authenticated
              if (_userService.IsAuthenticated()) {
-                if (User.IsInRole("Admin")) {
+                if (_userService.IsAdmin()) {
                     return RedirectToAction("Index", "Product");
                 }
                 else {
@@ -61,9 +61,9 @@ namespace ServiceSystemNRDCL.Controllers
                 //checking if the log in succesful
                 if (result.Succeeded) {
                     //redirecting to admin page if the user is a admin
-                    if (User.IsInRole("Admin"))
+                    if (_userService.IsAdmin())
                     {
-                        return RedirectToAction("Index", "Product");
+                        return RedirectToAction("Index","Product");
                     }
                     //checking if there is return URl
                     else if (!string.IsNullOrEmpty(returnUrl)) {

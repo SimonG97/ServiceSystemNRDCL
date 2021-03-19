@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 namespace ServiceSystemNRDCL.Controllers
 {
-    [Authorize(Roles ="Customer,Admin")]
+    [Authorize]
     public class CustomerController : Controller
     {
         private readonly IAccountRepository _accountRepository;

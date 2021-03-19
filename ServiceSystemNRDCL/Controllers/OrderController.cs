@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ServiceSystemNRDCL.Controllers
 {
-    [Authorize(Roles ="Admin,Customer")]
+    [Authorize]
     public class OrderController : Controller
     {
         private readonly IOrderRepository _orderRepository;
