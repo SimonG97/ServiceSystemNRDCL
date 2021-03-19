@@ -24,5 +24,10 @@ namespace ServiceSystemNRDCL.Service
         public bool IsAuthenticated() {
             return _httpContext.HttpContext.User.Identity.IsAuthenticated;
         }
+
+        //method to check the user role
+        public bool IsAdmin() {
+            return _httpContext.HttpContext.User.IsInRole("Admin");
+        }
     }
 }

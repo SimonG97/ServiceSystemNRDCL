@@ -6,7 +6,7 @@ using ServiceSystemNRDCL.Repository;
 
 namespace Assignment_NRDCL.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly IProductRepository _productRepository;
