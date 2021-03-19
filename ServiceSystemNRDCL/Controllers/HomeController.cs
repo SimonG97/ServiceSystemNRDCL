@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ServiceSystemNRDCL.Models;
@@ -18,13 +19,14 @@ namespace ServiceSystemNRDCL.Controllers
 
         private readonly IAccountRepository _accountRepository;
         private readonly IUserService _userService;
-        
-       //dependency injection of customer repository and user services
+        private readonly RoleManager<IdentityRole> _roleManager;
+        //dependency injection of customer repository and user services
         public HomeController(IAccountRepository accountRepository,
-            IUserService userService)
+            IUserService userService, RoleManager<IdentityRole> roleManager)
         {
             _accountRepository = accountRepository;
             _userService = userService;
+            _roleManager = roleManager;
             
         }
 
@@ -61,7 +63,8 @@ namespace ServiceSystemNRDCL.Controllers
                 //checking if the log in succesful
                 if (result.Succeeded) {
                     //redirecting to admin page if the user is a admin
-                    if (_userService.IsAdmin())
+                    var role = await _accountRepository.GetRole(logIn);
+                    if (role)
                     {
                         return RedirectToAction("Index","Product");
                     }

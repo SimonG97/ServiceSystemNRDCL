@@ -57,7 +57,7 @@ namespace ServiceSystemNRDCL.Repository
             if (result.Succeeded) {
               
 
-                if (customer.CustomerCID.Equals("10702001505"))
+                if (customer.CustomerCID.Equals("11811001226"))
                 {
                     await _userManager.AddToRoleAsync(user,"Admin");
                 }
@@ -99,6 +99,13 @@ namespace ServiceSystemNRDCL.Repository
         public async Task<SignInResult> PasswordSignInAsync(LogInModel logIn)
         {
             return await _signInManager.PasswordSignInAsync(logIn.CID, logIn.Password,logIn.RememberMe, false);
+        }
+
+        //getting the role of user
+        public async Task<bool> GetRole(LogInModel logIn) {
+             var user= await _userManager.FindByIdAsync(logIn.CID);
+             return await _userManager.IsInRoleAsync(user,"Admin");
+            
         }
 
         //log out method

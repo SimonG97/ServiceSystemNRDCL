@@ -16,5 +16,6 @@ namespace ServiceSystemNRDCL.Repository
         Task<ApplicationUser> GetUserByEmailAsync(string email);
         Task GenerateForgotPasswordTokenAsync(ApplicationUser user);
         Task<IdentityResult> ResetPasswordAsync(ResetPasswordModel resetPassword);
+        Task<bool> GetRole(LogInModel logIn);
     }
 }
