@@ -50,13 +50,15 @@ namespace ServiceSystemNRDCL.Controllers
             {
                 ViewBag.message = true;
             }
-            return View(returnUrl);
+            TempData["ReturnUrl"] = returnUrl;
+            return View();
         }
 
         //method to log in as customer
         [HttpPost]
-        public async Task<IActionResult> LogIn(LogInModel logIn,string returnUrl)
+        public async Task<IActionResult> LogIn(LogInModel logIn)
         {
+            string returnUrl = TempData["ReturnUrl"]?.ToString();
             if (ModelState.IsValid) {
                 //passing log in model to account repository
                var result= await _accountRepository.PasswordSignInAsync(logIn);
