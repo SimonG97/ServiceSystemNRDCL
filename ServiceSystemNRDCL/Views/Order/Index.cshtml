@@ -17,10 +17,10 @@
                     </div>
                     <div class="card-body">
                         <form method="post" asp-action="Index" asp-controller="Order">
-                            @if (ViewBag.Status == true && @TempData["ResponseMessage"] != null)
+                            @if (@TempData.Peek("SuccessMessage") != null)
                             {
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <span>@TempData["ResponseMessage"]</span><br />
+                                    <span>@TempData["SuccessMessage"]</span><br />
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -99,43 +99,65 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script>
-        $(document).ready(function () {
-            $('#calculateAmount').on('click', function () {
-                var customerCID = $('#CustomerCID').val();
-                var siteID = $('#SiteID').val();
-                var productID = $('#ProductID').val();
-                var quantity = $('#Quantity').val();
+        var order = (function () {
+            // To get the response validation message
+            function getResponseMessage() {
+                var data = '@TempData["ResponseMessage"]';
 
-                $('#PriceAmount').val('');
-                $('#TansportAmount').val('');
-                $('#AdvanceBalance').val('');
-
-                if (_validateRequiredData(customerCID, siteID, productID, quantity, true)) {
-                    $.ajax({
-                        type: 'GET',
-                        url: '@Url.Action("Calculate")',
-                        data: {
-                            customerCID: customerCID, siteID: siteID, productID: productID, quantity: quantity
-                        },
-                        success: function (res) {
-                            if (res.status == 1) {
-                                $('#PriceAmount').val(res.responseData.priceAmount.toFixed(2));
-                                $('#TansportAmount').val(res.responseData.tansportAmount.toFixed(2));
-                                $('#AdvanceBalance').val(res.responseData.advanceBalance.toFixed(2));
-                            } else {
-                                $('#MessageModalButton').click();
-                                $('#exampleModalLabel').text('Warning Message');
-                                $('#messageID').empty().append(res.message);
-                            }
-                        }, error: function (error) {
-                            $('#MessageModalButton').click();
-                            $('#exampleModalLabel').text('Error Message');
-                            $('#messageID').text('System encountered error.');
-                        }
-                    });
+                if (data !== '' && data !== null) {
+                    $('#MessageModalButton').click();
+                    $('#exampleModalLabel').text('Warning Message');
+                    $('#messageID').empty().append(_decodeHtml(data));
                 }
-            });
+            }
 
+            // To decode the endoded html data
+            function _decodeHtml(html) {
+                var txt = document.createElement("textarea");
+                txt.innerHTML = html;
+                return txt.value;
+            }
+
+            // To calculate the required amounts
+            function calculateAmount() {
+                $('#calculateAmount').on('click', function () {
+                    var customerCID = $('#CustomerCID').val();
+                    var siteID = $('#SiteID').val();
+                    var productID = $('#ProductID').val();
+                    var quantity = $('#Quantity').val();
+
+                    $('#PriceAmount').val('');
+                    $('#TansportAmount').val('');
+                    $('#AdvanceBalance').val('');
+
+                    if (_validateRequiredData(customerCID, siteID, productID, quantity, true)) {
+                        $.ajax({
+                            type: 'GET',
+                            url: '@Url.Action("Calculate")',
+                            data: {
+                                customerCID: customerCID, siteID: siteID, productID: productID, quantity: quantity
+                            },
+                            success: function (res) {
+                                if (res.status == 1) {
+                                    $('#PriceAmount').val(res.responseData.priceAmount.toFixed(2));
+                                    $('#TansportAmount').val(res.responseData.tansportAmount.toFixed(2));
+                                    $('#AdvanceBalance').val(res.responseData.advanceBalance.toFixed(2));
+                                } else {
+                                    $('#MessageModalButton').click();
+                                    $('#exampleModalLabel').text('Warning Message');
+                                    $('#messageID').empty().append(res.message);
+                                }
+                            }, error: function (error) {
+                                $('#MessageModalButton').click();
+                                $('#exampleModalLabel').text('Error Message');
+                                $('#messageID').text('System encountered error.');
+                            }
+                        });
+                    }
+                });
+            }
+
+            // To validate if all the required values are entered.
             function _validateRequiredData(customerCID, siteID, productID, quantity, condition) {
                 if (customerCID == '' || customerCID == null) {
                     condition = false;
@@ -158,6 +180,16 @@
                 }
                 return condition;
             }
+
+            return {
+                getResponseMessage: getResponseMessage,
+                calculateAmount: calculateAmount
+            }
+        })();
+
+        $(document).ready(function () {
+            order.getResponseMessage();
+            order.calculateAmount();
         });
     </script>
 }
@@ -174,7 +206,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <span id="messageID"></span>
+                <ul id="messageID" style="list-style-type: none;"></ul>
             </div>
         </div>
     </div>

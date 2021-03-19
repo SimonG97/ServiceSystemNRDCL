@@ -72,9 +72,10 @@ namespace ServiceSystemNRDCL.Controllers
 
             if (ModelState.IsValid)
             {
-                var response = await _orderRepository.AddAsync(order);
+                CustomResponse response = await _orderRepository.AddAsync(order);
                 if (response.Status == 1)
                 {
+                    TempData["SuccessMessage"] = "Order placed successfylly.";
                     return RedirectToAction(nameof(Index), new { status = 0 });
                 }
                 TempData["ResponseMessage"] =  response.Message;

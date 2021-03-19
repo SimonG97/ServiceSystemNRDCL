@@ -158,9 +158,9 @@ namespace ServiceSystemNRDCL.Repository
             // To validate if the customer have required balance amount to place order.
             if (orderedAmount > deposit.Balance)
             {
-                message += $"{"Total Order Amount"}: Nu. {orderedAmount} ";
-                message += $"{" Advance Balance"}: Nu. {deposit.Balance} ";
-                message += $"{" Required Amount"}: Nu. {orderedAmount - deposit.Balance}";
+                message += $"<li>{"Total Order Amount"}: <i>Nu. {orderedAmount}</i></li>";
+                message += $"<li>{" Advance Balance    "}: <i>Nu. {deposit.Balance}</i></li>";
+                message += $"<li>{" Required Amount    "}: <i>Nu. {orderedAmount - deposit.Balance}</i></li>";
 
                 var orders = new Order()
                 {
