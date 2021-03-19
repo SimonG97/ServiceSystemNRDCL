@@ -14,7 +14,7 @@ namespace ServiceSystemNRDCL.Models
         [Display(Name = "Last Amount")]
         public double LastAmount { get; set; }
 
-        [Display(Name = "Balance")]
+        [Display(Name = "Deposit Balance")]
         public double Balance { get; set; }
 
         [NotMapped]

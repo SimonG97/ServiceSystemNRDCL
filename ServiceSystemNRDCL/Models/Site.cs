@@ -1,4 +1,5 @@
-﻿using ServiceSystemNRDCL.Validations;
+﻿using Microsoft.AspNetCore.Mvc;
+using ServiceSystemNRDCL.Validations;
 using System.ComponentModel.DataAnnotations;
 
 namespace ServiceSystemNRDCL.Models
@@ -12,6 +13,7 @@ namespace ServiceSystemNRDCL.Models
         [Required(ErrorMessage = "Customer CID is mandatory.")]
         [StringLength(11, MinimumLength = 11, ErrorMessage = "Customer CID must have a minimum and maximum length of 11.")]
         [Display(Name = "Customer CID")]
+        [Remote(action: "VerifyCustomerID", controller: "Site")]
         public string CustomerID { get; set; }
 
         [Required(ErrorMessage = "Site name is mandatory.")]
@@ -22,7 +24,7 @@ namespace ServiceSystemNRDCL.Models
         [Required(ErrorMessage = "Distance is mandatory.")]
         [RegularExpression("^(0*[1-9][0-9]*(\\.[0-9]+)?|0+\\.[0-9]*[1-9][0-9]*)$", ErrorMessage = "Please enter a valid distance.")]
         [Display(Name = "Distance")]
-        [Distance(0, 500)]
+        [Distance(0, 2000)]
         public double Distance { get; set; }
 
         public Site() { }

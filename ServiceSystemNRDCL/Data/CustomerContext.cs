@@ -11,6 +11,7 @@ namespace ServiceSystemNRDCL.Data
         {
         }
 
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<CustomerOrders> CustomerOrders { get; set; }
         public DbSet<Site> Sites { get; set; }
         public DbSet<Deposit> Deposits { get; set; }

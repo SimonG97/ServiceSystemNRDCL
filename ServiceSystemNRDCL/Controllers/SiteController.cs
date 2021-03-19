@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ServiceSystemNRDCL.Models;
 using ServiceSystemNRDCL.Repository;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ServiceSystemNRDCL.Controllers
 {
+    [Authorize]
     public class SiteController : Controller
     {
         private readonly ISiteRepository siteRepository;
@@ -57,7 +59,7 @@ namespace ServiceSystemNRDCL.Controllers
                 }
                 return RedirectToAction(nameof(Index), new { id = 0, status });
             }
-            ViewData["ProductList"] = await siteRepository.FindAll(userID);
+            ViewData["SiteList"] = await siteRepository.FindAll(userID);
             return View(site);
         }
 
@@ -75,6 +77,17 @@ namespace ServiceSystemNRDCL.Controllers
             var site = await siteRepository.FindByID(id);
             await siteRepository.Remove(site);
             return RedirectToAction(nameof(Index), new { id = 0, status = 0 });
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        public IActionResult VerifyCustomerID(string CustomerCID)
+        {
+            if (!string.IsNullOrEmpty(CustomerCID))
+            {
+                return Json($"Email {CustomerCID} is already in use.");
+            }
+
+            return Json(true);
         }
     }
 }

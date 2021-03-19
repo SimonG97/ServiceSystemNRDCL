@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ServiceSystemNRDCL.Models;
@@ -6,6 +7,7 @@ using ServiceSystemNRDCL.Repository;
 
 namespace ServiceSystemNRDCL.Controllers
 {
+    [Authorize]
     public class DepositController : Controller
     {
         private readonly IDepositRepository _depositRepository;
@@ -33,8 +35,11 @@ namespace ServiceSystemNRDCL.Controllers
                 ViewBag.Status = true;
                 ViewBag.Message = status == 1 ? "created" : "updated";
             }
-            ViewData["DepositList"] = await _depositRepository.FindAll(userID);
+
+            Deposit depositDetails = await _depositRepository.FindByID(userID);
+            ViewData["DepositList"] = await _depositRepository.FindAll(userID); ;
             ViewBag.CustomerID = userID;
+            ViewBag.LastAmount = depositDetails == null ? 0 : depositDetails.LastAmount;
             return View(deposit);
         }
 
@@ -45,16 +50,16 @@ namespace ServiceSystemNRDCL.Controllers
             var userID = _userManager.GetUserId(User);
             if (ModelState.IsValid)
             {
-                var status = deposit.DepositID == 0 ? 1 : 2;
-
+                var status = 1;
                 deposit.CustomerID = userID;
-                if (deposit.DepositID == 0)
+                if (await _depositRepository.IsIDExists(userID))
                 {
-                    await _depositRepository.Add(deposit);
+                    status = 2;
+                    await _depositRepository.Update(deposit);
                 }
                 else
                 {
-                    await _depositRepository.Update(deposit);
+                    await _depositRepository.Add(deposit);
                 }
                 return RedirectToAction(nameof(Index), new { id = 0, status });
             }

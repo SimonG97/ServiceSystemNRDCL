@@ -17,14 +17,14 @@
                     </div>
                     <div class="card-body">
                         <form method="post" asp-action="Index" asp-controller="Order">
-                            @if (ViewBag.Status == true)
+                            @if (ViewBag.Status == true && @TempData["ResponseMessage"] != null)
                             {
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <span asp-validation-for="OrderID" class="text-danger"></span><br />
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <span>@TempData["ResponseMessage"]</span><br />
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
                             }
                             <input type="hidden" name="OrderID" id="OrderID" value="@OrderID" />
                             <div class="form-group row">
@@ -50,13 +50,13 @@
                             </div>
                             <div class="form-group row">
                                 <label asp-for="Quantity" class="col-md-2 col-form-label required"></label>
-                                <div class="col-md-6 text-left">
+                                <div class="col-md-4 text-left">
                                     <input class="form-control" asp-for="Quantity" autocomplete="off" value="@ViewBag.Quantity">
                                     <span asp-validation-for="Quantity" class="text-danger" id="QuantityMsg"></span>
                                 </div>
-                                <a id="calculateAmount" style="padding-top: 7px;">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </a>
+                                <div class="col-md-2">
+                                    <input type="submit" value="Calculate" class="col-md-8 btn btn-primary btn-sm" id="calculateAmount" />
+                                </div>
                             </div>
                             <div class="form-group row">
                                 <label asp-for="PriceAmount" class="col-md-2 col-form-label required"></label>

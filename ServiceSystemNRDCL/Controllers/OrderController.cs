@@ -70,13 +70,13 @@ namespace ServiceSystemNRDCL.Controllers
 
             if (ModelState.IsValid)
             {
-                var response = await _orderRepository.Add(order);
+                var response = await _orderRepository.AddAsync(order);
                 if (response.Status == 1)
                 {
                     return RedirectToAction(nameof(Index), new { status = 0 });
                 }
-                ModelState.AddModelError("OrderID", response.Message);
-                return RedirectToAction(nameof(Index), response.ResponseData);
+                TempData["ResponseMessage"] =  response.Message;
+                return RedirectToAction(nameof(Index), data);
             }
             return RedirectToAction(nameof(Index), data);
         }

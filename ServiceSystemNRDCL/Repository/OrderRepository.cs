@@ -3,6 +3,7 @@ using ServiceSystemNRDCL.Models;
 using ServiceSystemNRDCL.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace ServiceSystemNRDCL.Repository
 {
@@ -22,17 +23,86 @@ namespace ServiceSystemNRDCL.Repository
             _depositRepository = depositRepository;
         }
 
-        public async Task<List<Order>> FindAll()
+        public async Task<List<Order>> FindAllAsync(string userID, bool isAdmin)
         {
-            return await _context.Orders.ToListAsync();
+            userID = isAdmin ? null : userID;
+            List<ApplicationUser> applicationUserList = await _context.ApplicationUsers.ToListAsync();
+            List<Order> orderList = _context.Orders.ToListAsync().Result.
+                Select(data => new Order
+                {
+                    CustomerCID = data.CustomerCID,
+                    PriceAmount = data.PriceAmount,
+                    TansportAmount = data.TansportAmount,
+                    AdvanceBalance = data.AdvanceBalance
+                }).Where(data => data.CustomerCID == userID || userID == null).ToList();
+
+            List<Deposit> depositList = _depositRepository.FindAll().Result.
+                 Select(data => new Deposit
+                 {
+                     CustomerID = data.CustomerID,
+                     Balance = data.Balance,
+                 }).Where(data => data.CustomerID == userID || userID == null).ToList();
+
+            var orderedList = from order in orderList
+                              join user in applicationUserList on order.CustomerCID equals user.Id
+                              join deposit in depositList on order.CustomerCID equals deposit.CustomerID
+                              select new Order
+                              {
+                                  CustomerCID = order.CustomerCID,
+                                  CustomerName = user.FirstName + " " + user.LastName,
+                                  PriceAmount = order.PriceAmount,
+                                  TansportAmount = order.TansportAmount,
+                                  AdvanceBalance = deposit.Balance
+                              };
+            return orderedList.GroupBy(data => data.CustomerCID)
+                .Select(order => new Order
+                {
+                    CustomerCID = order.First().CustomerCID,
+                    CustomerName = order.First().CustomerName,
+                    PriceAmount = order.Sum(data => data.PriceAmount),
+                    TansportAmount = order.Sum(data => data.TansportAmount),
+                    AdvanceBalance = order.First().AdvanceBalance,
+                }).ToList();
         }
 
-        public async Task<Order> FindByID(int id)
+        public async Task<List<Product>> FindAllProductAsync(string userID, bool isAdmin)
+        {
+            userID = isAdmin ? null : userID;
+            List<Order> orderList = _context.Orders.ToListAsync().Result.
+                Select(data => new Order
+                {
+                    CustomerCID = data.CustomerCID,
+                    ProductID = data.ProductID,
+                    PriceAmount = data.PriceAmount,
+                    TansportAmount = data.TansportAmount
+                }).Where(data => data.CustomerCID == userID || userID == null).ToList();
+
+            var productList = await _productRepository.FindAll();
+            var productOrderedList = from order in orderList
+                                     join product in productList on order.ProductID equals product.ProductID
+                                     select new Product
+                                     {
+                                         ProductID = product.ProductID,
+                                         ProductName = product.ProductName,
+                                         PriceAmount = order.PriceAmount,
+                                         TransportAmount = order.TansportAmount
+                                     };
+            return productOrderedList.GroupBy(data => data.ProductID)
+                .Select(product => new Product
+                {
+                    ProductID = product.First().ProductID,
+                    ProductName = product.First().ProductName,
+                    PriceAmount = product.Sum(data => data.PriceAmount),
+                    TransportAmount = product.Sum(data => data.TransportAmount)
+                }).ToList();
+        }
+
+        public async Task<Order> FindByIDAsync(int id)
         {
             return await _context.Orders.FirstOrDefaultAsync(m => m.OrderID == id);
         }
 
-        public async Task<CustomResponse> Add(Order order)
+        public async Task<CustomResponse> AddAsync(Order order)
         {
             var deposit = await _depositRepository.FindByID(order.CustomerCID);
             var product = _productRepository.FindByID(order.ProductID).Result;
@@ -46,36 +116,23 @@ namespace ServiceSystemNRDCL.Repository
 
             var orderDetails = (Order)response.ResponseData;
 
-            //_context.Orders.Add(orderDetails);
-            //await _context.SaveChangesAsync();
+            _context.Orders.Add(orderDetails);
+            await _context.SaveChangesAsync();
 
             // To update the deposit balance of given customer.
-            deposit.Balance = orderDetails.AdvanceBalance;
+            deposit.DepositID = 1;
+            deposit.Balance = deposit.Balance - orderDetails.OrderedAmount;
             deposit.LastAmount = -orderDetails.OrderedAmount;
-            //await _depositRepository.Update(deposit);
+            await _depositRepository.Update(deposit);
             return response;
         }
 
-        public async Task<bool> Remove(int id)
-        {
-            _context.Orders.Remove(await FindByID(id));
-            await _context.SaveChangesAsync();
-            return true;
-        }
-
-        public async Task<bool> Update(Order order)
-        {
-            _context.Orders.Update(order);
-            await _context.SaveChangesAsync();
-            return true;
-        }
-
-        public async Task<bool> IsIDExists(int id)
+        public async Task<bool> IsIDExistsAsync(int id)
         {
             return await _context.Orders.AnyAsync(e => e.OrderID == id);
         }
 
-        public async Task<List<Product>> ProductDropdownList()
+        public async Task<List<Product>> ProductDropdownListAsync()
         {
             return await _productRepository.FindAll();
         }
@@ -101,9 +158,9 @@ namespace ServiceSystemNRDCL.Repository
             // To validate if the customer have required balance amount to place order.
             if (orderedAmount > deposit.Balance)
             {
-                message += $"<table><tr><td>{"Total Order Amount"}:</td><td>  Nu. {orderedAmount}</td></tr>";
-                message += $"<tr><td>{"Advance Balance"}:</td><td>  Nu. {deposit.Balance}</td></tr>";
-                message += $"<tr><td>{"Required Amount"}:</td><td>  Nu. {orderedAmount - deposit.Balance}</td></tr><table>";
+                message += $"{"Total Order Amount"}: Nu. {orderedAmount} ";
+                message += $"{" Advance Balance"}: Nu. {deposit.Balance} ";
+                message += $"{" Required Amount"}: Nu. {orderedAmount - deposit.Balance}";
 
                 var orders = new Order()
                 {

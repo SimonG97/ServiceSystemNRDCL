@@ -18,6 +18,8 @@ namespace ServiceSystemNRDCL.Repository
 
         public async Task<bool> Add(Deposit deposit)
         {
+            deposit.LastAmount = deposit.Balance;
+
             _context.Deposits.Add(deposit);
             await _context.SaveChangesAsync();
             return true;
@@ -32,6 +34,12 @@ namespace ServiceSystemNRDCL.Repository
 
         public async Task<bool> Update(Deposit deposit)
         {
+
+            if(deposit.DepositID == 0)
+            {
+                deposit.Balance = deposit.Balance + deposit.LastAmount;
+                deposit.LastAmount = deposit.Balance;
+            }
             _context.Deposits.Update(deposit);
             await _context.SaveChangesAsync();
             return true;

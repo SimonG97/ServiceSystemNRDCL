@@ -40,8 +40,7 @@ namespace ServiceSystemNRDCL.Repository
                 Email = customer.Email,
                 PhoneNumber = customer.Phone,
                 Id = customer.CustomerCID,
-                UserName = customer.CustomerCID
-
+                UserName = customer.CustomerCID,
             };
             var result= await _userManager.CreateAsync(user, customer.Password); 
             if (result.Succeeded) {

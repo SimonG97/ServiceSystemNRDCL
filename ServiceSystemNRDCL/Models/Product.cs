@@ -1,6 +1,7 @@
 ﻿using ServiceSystemNRDCL.Validations;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ServiceSystemNRDCL.Models
 {
@@ -23,6 +24,12 @@ namespace ServiceSystemNRDCL.Models
         [Required(ErrorMessage = "Rate is mandatory.")]
         [Display(Name = "Rate")]
         public double Rate { get; set; }
+
+        [NotMapped]
+        public double PriceAmount { get; set; }
+
+        [NotMapped]
+        public double TransportAmount { get; set; }
 
         public Product() { }
 

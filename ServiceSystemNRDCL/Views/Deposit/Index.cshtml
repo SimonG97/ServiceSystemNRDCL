@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Index";
     IEnumerable<Deposit> DepositList = ViewData["DepositList"] as IEnumerable<Deposit>;
+    
     int SerialNo = 1;
     int DepositID = Model == null ? 0 : Model.DepositID;
 }
@@ -29,6 +30,7 @@
                         }
                         <form method="post" asp-action="Index" asp-controller="Deposit">
                             <input type="hidden" name="DepositID" id="DepositID" value="@DepositID" />
+                            <input type="hidden" name="LastAmount" id="LastAmount" value="@ViewBag.LastAmount" />
                             <div class="form-group row">
                                 <label asp-for="CustomerID" class="col-md-2 col-form-label required"></label>
                                 <div class="col-md-6 text-left">
@@ -65,9 +67,9 @@
                                         @Html.DisplayNameFor(model => model.CustomerID)
                                     </th>
                                     <th width="65%">
-                                        @Html.DisplayNameFor(model => model.Balance)
+                                        Balance
                                     </th>
-                                    <th width="15%" colspan="2">Actions</th>
+                                    <th width="15%" colspan="1">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -88,7 +90,7 @@
                                                 <span class="glyphicon glyphicon-pencil text-primary"></span>
                                             </a>
                                         </td>
-                                        <td>
+                                        <td class="hidden">
                                             <a title="Delete" data-toggle="modal" data-target="#DepositModal_@item.CustomerID">
                                                 <span class="glyphicon glyphicon-trash text-danger"></span>
                                             </a>

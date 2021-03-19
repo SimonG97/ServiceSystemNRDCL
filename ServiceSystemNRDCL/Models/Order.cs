@@ -32,5 +32,8 @@ namespace ServiceSystemNRDCL.Models
 
         [NotMapped, Display(Name = "Tansport Amount")]
         public double OrderedAmount { get; set; }
+
+        [NotMapped, Display(Name = "Customer Name")]
+        public string CustomerName { get; set; }
     }
 }
