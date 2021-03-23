@@ -28,9 +28,10 @@ namespace ServiceSystemNRDCL.Controllers
         }
 
         // GET: Orders
-        public async Task<IActionResult> Index(int? status, int? siteID, int? productID, double? quantity)
+        public async Task<IActionResult> Index(int? status, int? siteID, int? productID, double? quantity, string? customerID)
         {
             var userID = _userManager.GetUserId(User);
+            userID = string.IsNullOrEmpty(customerID) ? userID : customerID;
             var order = new Order();
             ViewBag.Status = false;
             ViewBag.Quantity = "";
@@ -67,7 +68,8 @@ namespace ServiceSystemNRDCL.Controllers
                 siteID = order.SiteID,
                 productID = order.ProductID,
                 quantity = order.Quantity,
-                message  = "",
+                customerID = order.CustomerCID,
+                message = "",
             };
 
             if (ModelState.IsValid)
@@ -76,12 +78,24 @@ namespace ServiceSystemNRDCL.Controllers
                 if (response.Status == 1)
                 {
                     TempData["SuccessMessage"] = "Order placed successfylly.";
-                    return RedirectToAction(nameof(Index), new { status = 0 });
+                    return RedirectToAction(nameof(Index), new { status = 0, customerID = "" });
                 }
-                TempData["ResponseMessage"] =  response.Message;
+                TempData["ResponseMessage"] = response.Message;
                 return RedirectToAction(nameof(Index), data);
             }
             return RedirectToAction(nameof(Index), data);
+        }
+
+        public async Task<IActionResult> GetSiteDropdownList(string customerCID)
+        {
+            List<SelectListItem> siteList = new List<SelectListItem>();
+            if (string.IsNullOrEmpty(customerCID))
+            {
+                return Json(siteList);
+            }
+
+            siteList = await GetSiteDropdownlist(customerCID);
+            return Json(siteList);
         }
 
         /// <summary>

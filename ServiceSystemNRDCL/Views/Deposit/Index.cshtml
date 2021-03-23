@@ -3,9 +3,9 @@
 @{
     ViewData["Title"] = "Index";
     IEnumerable<Deposit> DepositList = ViewData["DepositList"] as IEnumerable<Deposit>;
-    
     int SerialNo = 1;
     int DepositID = Model == null ? 0 : Model.DepositID;
+    var isHidden = User.IsInRole("Admin") ? "" : "hidden";
 }
 
 <div class="jumbotron text-center bg-white">
@@ -31,10 +31,10 @@
                         <form method="post" asp-action="Index" asp-controller="Deposit">
                             <input type="hidden" name="DepositID" id="DepositID" value="@DepositID" />
                             <input type="hidden" name="LastAmount" id="LastAmount" value="@ViewBag.LastAmount" />
-                            <div class="form-group row hidden">
+                            <div class="form-group row @isHidden">
                                 <label asp-for="CustomerID" class="col-md-2 col-form-label required"></label>
                                 <div class="col-md-6 text-left">
-                                    <input class="form-control" asp-for="CustomerID" readonly value="@ViewBag.CustomerID">
+                                    <input class="form-control" asp-for="CustomerID" value="@ViewBag.CustomerID">
                                     <span asp-validation-for="CustomerID" class="text-danger"></span>
                                 </div>
                             </div>
@@ -66,7 +66,10 @@
                                     <th width="15%">
                                         @Html.DisplayNameFor(model => model.CustomerID)
                                     </th>
-                                    <th width="65%">
+                                    <th width="30%">
+                                        @Html.DisplayNameFor(model => model.LastAmount)
+                                    </th>
+                                    <th width="35%">
                                         Balance
                                     </th>
                                     <th width="15%" colspan="1">Actions</th>
@@ -83,10 +86,13 @@
                                             @Html.DisplayFor(modelItem => item.CustomerID)
                                         </td>
                                         <td>
+                                            @Html.DisplayFor(modelItem => item.LastAmount)
+                                        </td>
+                                        <td>
                                             @Html.DisplayFor(modelItem => item.Balance)
                                         </td>
                                         <td>
-                                            <a title="Edit" data-toggle="tooltip" asp-action="Edit" asp-route-id="@item.CustomerID">
+                                            <a title="Edit" data-toggle="tooltip" asp-action="Edit" asp-route-customerID="@item.CustomerID">
                                                 <span class="glyphicon glyphicon-pencil text-primary"></span>
                                             </a>
                                         </td>
@@ -114,3 +120,7 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
