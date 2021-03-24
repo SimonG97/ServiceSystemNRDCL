@@ -78,7 +78,7 @@
                                     <th width="25%">
                                         @Html.DisplayNameFor(model => model.Rate)
                                     </th>
-                                    <th width="10%" colspan="2">Actions</th>
+                                    <th width="10%">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -102,8 +102,6 @@
                                             <a asp-controller="Product" asp-action="Edit" asp-route-id="@item.ProductID">
                                                 <span class="glyphicon glyphicon-pencil text-primary"></span>
                                             </a>
-                                        </td>
-                                        <td>
                                             <a title="Delete" data-toggle="modal" data-target="#ProductModal_@item.ProductID">
                                                 <span class="glyphicon glyphicon-trash text-danger"></span>
                                             </a>

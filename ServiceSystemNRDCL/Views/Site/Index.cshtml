@@ -61,19 +61,10 @@
                                 </div>
                             </div>
                         </form>
-                        <h4 class="text-center"> Below are the list of sites registered under you.</h4>
-                        <form method="post">
-                            <div class="row form-group">
-                                <div class="col-md-7">
-                                    <input asp-for="Text" placeholder="Search by site name" />
-                                </div>
-                                <div class="col-md-5">
-                                    <input type="submit" value="Search" class="btn btn-primary" />
-                                </div>
-                            </div>
-                        </form>
-                        <table class="table table-hover table-bordered">
-                            <thead class="thead-light">
+                      
+                       
+                        <table id="Table" class="table table-striped table-bordered dt-responsive nowrap">
+                            <thead>
                                 <tr>
                                     <th width="05%">
                                         Sl
@@ -87,7 +78,7 @@
                                     <th width="15%">
                                         @Html.DisplayNameFor(model => model.Distance)
                                     </th>
-                                    <th width="15%" colspan="3">Actions</th>
+                                    <th width="15%">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -111,8 +102,7 @@
                                                asp-route-customerID="@item.CustomerID">
                                                 <span class="glyphicon glyphicon-pencil text-primary"></span>
                                             </a>
-                                        </td>
-                                        <td>
+                                        
                                             <a title="Delete" data-toggle="modal" data-target="#SiteModal_@item.SiteID">
                                                 <span class="glyphicon glyphicon-trash text-danger"></span>
                                             </a>
@@ -124,7 +114,7 @@
                                            ID = @item.SiteID,
                                            ModalIDName = "SiteModal_" + @item.SiteID
                                        })
-                                        </td>
+                                      </td>
                                     </tr>
                                     serialNo++;
                                 }
