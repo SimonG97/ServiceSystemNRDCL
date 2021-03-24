@@ -34,12 +34,12 @@ namespace ServiceSystemNRDCL.Repository
 
         public async Task<bool> Update(Deposit deposit)
         {
-
-            if(deposit.DepositID == 0)
+            var balance = deposit.Balance;
+            if (deposit.DepositID == 0)
             {
                 deposit.Balance = deposit.Balance + deposit.LastAmount;
-                deposit.LastAmount = deposit.Balance;
             }
+            deposit.LastAmount = balance;
             _context.Deposits.Update(deposit);
             await _context.SaveChangesAsync();
             return true;

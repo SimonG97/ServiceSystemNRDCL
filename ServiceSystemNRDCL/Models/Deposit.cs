@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,6 +10,8 @@ namespace ServiceSystemNRDCL.Models
 
         [Key]
         [Display(Name = "Customer CID")]
+        [StringLength(11, MinimumLength = 11, ErrorMessage = "Customer CID must have a minimum and maximum length of 11.")]
+        [Remote(action: "VerifyCustomerCID", controller: "Site")]
         public string CustomerID { get; set; }
 
         [Display(Name = "Last Amount")]

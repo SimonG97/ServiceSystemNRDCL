@@ -20,13 +20,14 @@ namespace ServiceSystemNRDCL.Controllers
         }
 
         // GET: Sites
-        public async Task<IActionResult> Index(int? id, int? status)
+        public async Task<IActionResult> Index(int? id, int? status, string? customerID)
         {
             var userID = _userManager.GetUserId(User);
+            var customerCID = string.IsNullOrEmpty(customerID) ? userID : customerID;
             Deposit deposit = null;
             if (id != null && id > 0)
             {
-                deposit = await _depositRepository.FindByID(userID);
+                deposit = await _depositRepository.FindByID(customerCID);
                 deposit.DepositID = 1;
             }
 
@@ -35,11 +36,11 @@ namespace ServiceSystemNRDCL.Controllers
                 ViewBag.Status = true;
                 ViewBag.Message = status == 1 ? "created" : "updated";
             }
-
-            Deposit depositDetails = await _depositRepository.FindByID(userID);
-            ViewData["DepositList"] = await _depositRepository.FindAll(userID); ;
-            ViewBag.CustomerID = userID;
-            ViewBag.LastAmount = depositDetails == null ? 0 : depositDetails.LastAmount;
+            Deposit depositDetails = await _depositRepository.FindByID(customerCID);
+            ViewData["DepositList"] = User.IsInRole("Admin") ? await _depositRepository.FindAll() :
+                await _depositRepository.FindAll(customerCID);
+            ViewBag.CustomerID = customerCID;
+            ViewBag.LastAmount = depositDetails == null ? 0 : depositDetails.Balance;
             return View(deposit);
         }
 
@@ -61,16 +62,16 @@ namespace ServiceSystemNRDCL.Controllers
                 {
                     await _depositRepository.Add(deposit);
                 }
-                return RedirectToAction(nameof(Index), new { id = 0, status });
+                return RedirectToAction(nameof(Index), new { id = 0, status, customerID = "" });
             }
             ViewData["DepositList"] = await _depositRepository.FindAll(userID);
             return View(deposit);
         }
 
         // GET: Products/Edit/5
-        public IActionResult Edit(int id)
+        public IActionResult Edit(string customerID)
         {
-            return RedirectToAction(nameof(Index), new { id = 1 });
+            return RedirectToAction(nameof(Index), new { id = 1, customerID });
         }
 
         // POST: Products/Delete/5
@@ -80,7 +81,7 @@ namespace ServiceSystemNRDCL.Controllers
         {
             var site = await _depositRepository.FindByID(id);
             await _depositRepository.Remove(site);
-            return RedirectToAction(nameof(Index), new { id = 0, status = 0 });
+            return RedirectToAction(nameof(Index), new { id = 0, status = 0, customerID = "" });
         }
     }
 }

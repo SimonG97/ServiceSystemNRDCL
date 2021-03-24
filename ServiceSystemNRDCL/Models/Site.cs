@@ -14,6 +14,7 @@ namespace ServiceSystemNRDCL.Models
         [Required(ErrorMessage = "Customer CID is mandatory.")]
         [StringLength(11, MinimumLength = 11, ErrorMessage = "Customer CID must have a minimum and maximum length of 11.")]
         [Display(Name = "Customer CID")]
+        [Remote(action: "VerifyCustomerCID", controller: "Site")]
         public string CustomerID { get; set; }
 
         [Required(ErrorMessage = "Site name is mandatory.")]

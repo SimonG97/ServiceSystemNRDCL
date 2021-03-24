@@ -5,6 +5,7 @@
     IEnumerable<Site> SiteList = ViewData["SiteList"] as IEnumerable<Site>;
     int serialNo = 1;
     int SiteID = Model == null ? 0 : Model.SiteID;
+    var isHidden = User.IsInRole("Admin") ? "" : "hidden";
 }
 
 <div class="jumbotron text-center bg-white">
@@ -25,13 +26,12 @@
                                 </button>
                             </div>
                         }
-
                         <form method="post" asp-action="Index" asp-controller="Site">
                             <input type="hidden" name="SiteID" id="SiteID" value="@SiteID" />
-                            <div class="form-group row hidden">
+                            <div class="form-group row @isHidden">
                                 <label asp-for="CustomerID" class="col-md-2 col-form-label required"></label>
                                 <div class="col-md-6 text-left">
-                                    <input class="form-control" asp-for="CustomerID" readonly value="@ViewBag.CustomerID">
+                                    <input class="form-control" asp-for="CustomerID" value="@ViewBag.CustomerID">
                                     <span asp-validation-for="CustomerID" class="text-danger"></span>
                                 </div>
                             </div>
@@ -107,7 +107,8 @@
                                             @Html.DisplayFor(modelItem => item.Distance)
                                         </td>
                                         <td>
-                                            <a title="Edit" data-toggle="tooltip" asp-action="Edit" asp-route-id="@item.SiteID">
+                                            <a title="Edit" data-toggle="tooltip" asp-action="Edit" asp-route-id="@item.SiteID"
+                                               asp-route-customerID="@item.CustomerID">
                                                 <span class="glyphicon glyphicon-pencil text-primary"></span>
                                             </a>
                                         </td>
