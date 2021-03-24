@@ -4,6 +4,6 @@
 // Write your JavaScript code.
 $(document).ready(function () {
     alert("M")
-    $('#Tables').dataTable({
+    $('#Table').dataTable({
     });
 });

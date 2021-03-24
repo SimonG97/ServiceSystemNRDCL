@@ -35,5 +35,6 @@ namespace ServiceSystemNRDCL.Models
 
         [NotMapped, Display(Name = "Customer Name")]
         public string CustomerName { get; set; }
+        
     }
 }

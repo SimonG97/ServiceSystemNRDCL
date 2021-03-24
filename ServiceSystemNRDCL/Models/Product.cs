@@ -24,7 +24,7 @@ namespace ServiceSystemNRDCL.Models
         [Required(ErrorMessage = "Rate is mandatory.")]
         [Display(Name = "Rate")]
         public double Rate { get; set; }
-
+       
         [NotMapped]
         public double PriceAmount { get; set; }
 

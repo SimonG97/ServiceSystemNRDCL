@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServiceSystemNRDCL.Validations;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ServiceSystemNRDCL.Models
 {
@@ -26,6 +27,9 @@ namespace ServiceSystemNRDCL.Models
         [Display(Name = "Distance")]
         [Distance(0, 2000)]
         public double Distance { get; set; }
+
+        [NotMapped]
+        public string Text { get; set; }
 
         public Site() { }
 

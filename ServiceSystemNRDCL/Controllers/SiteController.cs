@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ServiceSystemNRDCL.Models;
 using ServiceSystemNRDCL.Repository;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ServiceSystemNRDCL.Controllers
@@ -36,7 +38,7 @@ namespace ServiceSystemNRDCL.Controllers
             }
             ViewData["SiteList"] = await siteRepository.FindAll(userID);
             ViewBag.CustomerID = userID;
-            return View(site);
+            return base.View((object)null);
         }
 
         // POST: Sites/Create
@@ -59,7 +61,14 @@ namespace ServiceSystemNRDCL.Controllers
                 }
                 return RedirectToAction(nameof(Index), new { id = 0, status });
             }
-            ViewData["SiteList"] = await siteRepository.FindAll(userID);
+            var sites= await siteRepository.FindAll(userID);
+            if (!string.IsNullOrEmpty(site.Text))
+            {
+                ViewData["SiteList"] = sites.Where(p => p.SiteName.Contains(site.Text));
+            }
+            else{
+                ViewData["SiteList"] = sites;
+            }
             return View(site);
         }
 

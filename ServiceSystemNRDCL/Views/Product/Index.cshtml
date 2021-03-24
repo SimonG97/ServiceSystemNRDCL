@@ -6,7 +6,7 @@
     int serialNo = 1;
     int ProductID = Model == null ? 0 : Model.ProductID;
 }
-
+<link href="~/js/JQueryDataTable/jquery.dataTables.css" rel="stylesheet" />
 <div class="jumbotron text-center bg-white">
     <div class="container pt-4">
         <div class="row">
@@ -28,7 +28,7 @@
                             </div>
                         }
                         <form method="post" asp-action="Index" asp-controller="Product">
-                            <input type="hidden" name="ProductID" id="ProductID" value="@ProductID"/>
+                            <input type="hidden" name="ProductID" id="ProductID" value="@ProductID" />
                             <div class="form-group row">
                                 <label asp-for="ProductName" class="col-md-2 col-form-label required"></label>
                                 <div class="col-md-6 text-left">
@@ -63,8 +63,8 @@
                             </div>
                         </form>
 
-                        <table class="table table-hover table-bordered">
-                            <thead class="thead-light">
+                        <table id="Table" class="table table-striped table-bordered dt-responsive nowrap">
+                            <thead>
                                 <tr>
                                     <th width="05%">
                                         Sl

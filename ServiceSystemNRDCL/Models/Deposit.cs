@@ -20,6 +20,8 @@ namespace ServiceSystemNRDCL.Models
         [NotMapped]
         public int DepositID { get; set; }
 
+    
+
         public Deposit() { }
 
         public Deposit(string CustomerID, int DepositID)

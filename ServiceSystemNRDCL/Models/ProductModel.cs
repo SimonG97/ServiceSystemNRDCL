@@ -26,6 +26,7 @@ namespace ServiceSystemNRDCL.Areas.Admin.Models
         [Required(ErrorMessage = "Rate is mandatory.")]
         [Display(Name = "Rate")]
         public double Rate { get; set; }
+        public string Text { get; set; }
 
         public ProductModel() { }
 
