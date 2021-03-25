@@ -34,7 +34,7 @@ namespace ServiceSystemNRDCL.Controllers
             if (status != null && status > 0)
             {
                 ViewBag.Status = true;
-                ViewBag.Message = status == 1 ? "created" : "updated";
+                ViewBag.Message = status == 1 ? "Desposited" : "Updated";
             }
             Deposit depositDetails = await _depositRepository.FindByID(customerCID);
             ViewData["DepositList"] = User.IsInRole("Admin") ? await _depositRepository.FindAll() :
