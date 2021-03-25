@@ -5,16 +5,8 @@
     IEnumerable<Deposit> DepositList = ViewData["DepositList"] as IEnumerable<Deposit>;
     int SerialNo = 1;
     int DepositID = Model == null ? 0 : Model.DepositID;
-    var isHidden = "";
-    var Id ="Table"; 
-    if (!User.IsInRole("Admin"))
-    {
-        isHidden = "Hidden";
-        Id = "";
-    }
-
-
-
+    var isHidden = User.IsInRole("Admin") ? "" : "hidden";
+    var Id = User.IsInRole("Admin") ? "Table" : "";
 }
 
 <div class="jumbotron text-center bg-white">
@@ -105,18 +97,18 @@
                                             <a title="Edit" data-toggle="tooltip" asp-action="Edit" asp-route-customerID="@item.CustomerID">
                                                 <span class="glyphicon glyphicon-pencil text-primary"></span>
                                             </a>
-                                     
+
                                             @*<a title="Delete" data-toggle="modal" data-target="#DepositModal_@item.CustomerID">
-                                                <span class="glyphicon glyphicon-trash text-danger"></span>
-                                            </a>
-                                            @await Html.PartialAsync("_DeleteConfirmPartial", new ModelData
-                                       {
-                                           Title = "deposit advance",
-                                           ControllerName = "Deposit",
-                                           ActionName = "Delete",
-                                           ID = @item.CustomerID,
-                                           ModalIDName = "DepositModal_" + @item.CustomerID
-                                       })*@
+                                                         <span class="glyphicon glyphicon-trash text-danger"></span>
+                                                     </a>
+                                                     @await Html.PartialAsync("_DeleteConfirmPartial", new ModelData
+                                                {
+                                                    Title = "deposit advance",
+                                                    ControllerName = "Deposit",
+                                                    ActionName = "Delete",
+                                                    ID = @item.CustomerID,
+                                                    ModalIDName = "DepositModal_" + @item.CustomerID
+                                                })*@
                                         </td>
                                     </tr>
                                     SerialNo++;
