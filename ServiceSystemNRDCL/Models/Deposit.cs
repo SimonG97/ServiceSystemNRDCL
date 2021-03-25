@@ -14,7 +14,7 @@ namespace ServiceSystemNRDCL.Models
         [Remote(action: "VerifyCustomerCID", controller: "Site")]
         public string CustomerID { get; set; }
 
-        [Display(Name = "Last Amount")]
+        [Display(Name = "Last Amount Added")]
         public double LastAmount { get; set; }
 
         [Display(Name = "Deposit Balance")]
