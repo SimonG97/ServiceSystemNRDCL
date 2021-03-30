@@ -252,7 +252,8 @@ namespace ServiceSystemNRDCL.Migrations
             modelBuilder.Entity("ServiceSystemNRDCL.Models.Deposit", b =>
                 {
                     b.Property<string>("CustomerID")
-                        .HasColumnType("text");
+                        .HasMaxLength(11)
+                        .HasColumnType("character varying(11)");
 
                     b.Property<double>("Balance")
                         .HasColumnType("double precision");
@@ -340,8 +341,7 @@ namespace ServiceSystemNRDCL.Migrations
 
                     b.Property<string>("SiteName")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
                     b.HasKey("SiteID");
 

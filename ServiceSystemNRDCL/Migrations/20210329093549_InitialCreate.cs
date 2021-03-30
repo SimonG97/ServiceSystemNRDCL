@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ServiceSystemNRDCL.Migrations
 {
-    public partial class AdminAdded : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -71,7 +71,7 @@ namespace ServiceSystemNRDCL.Migrations
                 name: "Deposits",
                 columns: table => new
                 {
-                    CustomerID = table.Column<string>(type: "text", nullable: false),
+                    CustomerID = table.Column<string>(type: "character varying(11)", maxLength: 11, nullable: false),
                     LastAmount = table.Column<double>(type: "double precision", nullable: false),
                     Balance = table.Column<double>(type: "double precision", nullable: false)
                 },
@@ -121,7 +121,7 @@ namespace ServiceSystemNRDCL.Migrations
                     SiteID = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CustomerID = table.Column<string>(type: "character varying(11)", maxLength: 11, nullable: false),
-                    SiteName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    SiteName = table.Column<string>(type: "text", nullable: false),
                     Distance = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
