@@ -13,7 +13,7 @@ namespace ServiceSystemNRDCL.Service
 {
     public class EmailService : IEmailService
     {
-        private const string templatePath = @"EmailTemplate/{0}.html";
+        private const string templatePath = @"{0}.html";
         private readonly SMTPConfigModel _smtpConfig;
         public EmailService(IOptions<SMTPConfigModel> smtpConfig)
         {
