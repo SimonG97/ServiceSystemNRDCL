@@ -13,13 +13,13 @@
             <ul class="navbar-nav mr-auto">
                 @if (User.IsInRole("Admin"))
                 {
-    <li class="nav-item active">
+    <li class="nav-item">
         <a class="nav-link" asp-controller="Product" asp-action="Index">Add Products</a>
     </li>
  }
 else
 {
-<li class="nav-item active">
+<li class="nav-item">
     <a class="nav-link" asp-route="HomePage">Home</a>
 </li>
 }

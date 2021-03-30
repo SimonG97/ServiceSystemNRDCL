@@ -10,8 +10,8 @@ using ServiceSystemNRDCL.Data;
 namespace ServiceSystemNRDCL.Migrations
 {
     [DbContext(typeof(CustomerContext))]
-    [Migration("20210318144754_Initial")]
-    partial class Initial
+    [Migration("20210330040013_Migrationv1")]
+    partial class Migrationv1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -254,7 +254,8 @@ namespace ServiceSystemNRDCL.Migrations
             modelBuilder.Entity("ServiceSystemNRDCL.Models.Deposit", b =>
                 {
                     b.Property<string>("CustomerID")
-                        .HasColumnType("text");
+                        .HasMaxLength(11)
+                        .HasColumnType("character varying(11)");
 
                     b.Property<double>("Balance")
                         .HasColumnType("double precision");
@@ -342,8 +343,7 @@ namespace ServiceSystemNRDCL.Migrations
 
                     b.Property<string>("SiteName")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
                     b.HasKey("SiteID");
 
