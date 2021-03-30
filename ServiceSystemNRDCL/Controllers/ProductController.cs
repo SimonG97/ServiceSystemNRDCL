@@ -70,5 +70,12 @@ namespace Assignment_NRDCL.Controllers
             await _productRepository.Remove(id);
             return RedirectToAction(nameof(Index), new { id = 0, status = 0 });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetProductDetails(int productID)
+        {
+            var result = await _productRepository.FindByID(productID);
+            return new JsonResult(result);
+        }
     }
 }

@@ -88,6 +88,13 @@ namespace ServiceSystemNRDCL.Controllers
             return RedirectToAction(nameof(Index), new { id = 0, status = 0, customerID = "" });
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetSiteDetails(int siteID)
+        {
+            var result = await siteRepository.FindByID(siteID);
+            return new JsonResult(result);
+        }
+
         public async Task<IActionResult> VerifyCustomerCID(string customerID)
         {
             if (User.IsInRole("Admin"))

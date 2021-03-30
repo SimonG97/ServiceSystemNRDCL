@@ -19,10 +19,12 @@ namespace ServiceSystemNRDCL.Models
 
         [Required(ErrorMessage = "Price is mandatory.")]
         [Display(Name = "Price")]
+        [Range(1, 10000, ErrorMessage = "Price must be between 1 and 10000.")]
         public double Price { get; set; }
 
         [Required(ErrorMessage = "Rate is mandatory.")]
         [Display(Name = "Rate")]
+        [Range(1, 100, ErrorMessage = "Rate must be between 1 and 100.")]
         public double Rate { get; set; }
        
         [NotMapped]
@@ -44,7 +46,7 @@ namespace ServiceSystemNRDCL.Models
         {
             if (Price > 10000)
             {
-                yield return new ValidationResult($"Price must be less than or equal to 100.", new[] { nameof(Price) });
+                yield return new ValidationResult($"Price must be less than or equal to 10000.", new[] { nameof(Price) });
             }
 
             if (Rate > 100)

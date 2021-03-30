@@ -88,6 +88,7 @@
                                     <tr>
                                         <td>
                                             @serialNo
+                                            <input type="hidden" id="hiddenProductID" value="@item.ProductID" />
                                         </td>
                                         <td class="text-left">
                                             @Html.DisplayFor(modelItem => item.ProductName)
@@ -99,7 +100,7 @@
                                             @Html.DisplayFor(modelItem => item.Rate)
                                         </td>
                                         <td>
-                                            <a asp-controller="Product" asp-action="Edit" asp-route-id="@item.ProductID">
+                                            <a title="Edit" data-toggle="modal" data-target="#editProductModal" id="editProductDetails">
                                                 <span class="glyphicon glyphicon-pencil text-primary"></span>
                                             </a>
                                             <a title="Delete" data-toggle="modal" data-target="#ProductModal_@item.ProductID">
@@ -125,3 +126,81 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="editProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Product Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-action="Index" asp-controller="Product">
+                    <input type="hidden" name="ProductID" id="ProductID" class="ProductID" />
+                    <div class="form-group row">
+                        <label asp-for="ProductName" class="col-md-4 col-form-label required"></label>
+                        <div class="col-md-6 text-left">
+                            <input class="form-control ProductName" asp-for="ProductName">
+                            <span asp-validation-for="ProductName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Price" class="col-md-4 col-form-label required"></label>
+                        <div class="col-md-6 text-left">
+                            <input class="form-control Price" asp-for="Price" autocomplete="off">
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Rate" class="col-md-4 col-form-label required"></label>
+                        <div class="col-md-6 text-left">
+                            <input class="form-control Rate" asp-for="Rate" autocomplete="off">
+                            <span asp-validation-for="Rate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label"></label>
+                        <div class="col-md-4">
+                            <input type="submit" value="Save" class="col-md-12 btn btn-primary" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        var productRegistration = (function () {
+            function getProducrDetails() {
+                $('#Table').on('click', 'tbody tr #editProductDetails', function () {
+                    var productID = $(this).closest('tr').find('#hiddenProductID').val();
+                    $.ajax({
+                        type: 'GET',
+                        url: '@Url.Action("GetProductDetails")',
+                        data: { productID: productID },
+                        success: function (res) {
+                            $('.ProductID').val(res.productID);
+                            $('.ProductName').val(res.productName);
+                            $('.Price').val(res.price);
+                            $('.Rate').val(res.rate);
+                        }
+                    });
+                });
+            }
+
+            return {
+                getProducrDetails: getProducrDetails
+            }
+        })();
+
+        $(document).ready(function () {
+            productRegistration.getProducrDetails();
+        });
+    </script>
+}

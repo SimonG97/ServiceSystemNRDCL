@@ -83,5 +83,12 @@ namespace ServiceSystemNRDCL.Controllers
             await _depositRepository.Remove(site);
             return RedirectToAction(nameof(Index), new { id = 0, status = 0, customerID = "" });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetDepositAdvanceDetails(string customerCID)
+        {
+            var result = await _depositRepository.FindByID(customerCID);
+            return new JsonResult(result);
+        }
     }
 }

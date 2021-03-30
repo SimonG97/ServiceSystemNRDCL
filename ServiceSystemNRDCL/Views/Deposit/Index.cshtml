@@ -59,7 +59,7 @@
                             </div>
                         </form>
 
-                        <table id="@Id" class="table table-striped table-bordered dt-responsive nowrap">
+                        <table id="@Id" class="table table-striped table-bordered dt-responsive nowrap siteTable">
                             <thead>
                                 <tr>
                                     <th width="05%">
@@ -83,6 +83,7 @@
                                     <tr>
                                         <td>
                                             @SerialNo
+                                            <input type="hidden" id="hiddenCustomerID" value="@item.CustomerID" />
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.CustomerID)
@@ -94,7 +95,7 @@
                                             @Html.DisplayFor(modelItem => item.Balance)
                                         </td>
                                         <td>
-                                            <a title="Edit" data-toggle="tooltip" asp-action="Edit" asp-route-customerID="@item.CustomerID">
+                                            <a title="Edit" data-toggle="modal" data-target="#editDepositModal" id="editDepositDetails">
                                                 <span class="glyphicon glyphicon-pencil text-primary"></span>
                                             </a>
 
@@ -122,6 +123,68 @@
     </div>
 </div>
 
+<div class="modal fade" id="editDepositModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Deposit Advance Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-action="Index" asp-controller="Deposit">
+                    <input type="hidden" name="DepositID" id="DepositID" class="DepositID" />
+                    <input type="hidden" name="LastAmount" id="LastAmount" class="LastAmount" />
+                    <input type="hidden" name="CustomerID" id="CustomerID" class="CustomerID" />
+                    <div class="form-group row">
+                        <label asp-for="Balance" class="col-md-4 col-form-label required"></label>
+                        <div class="col-md-6 text-left">
+                            <input class="form-control Balance" asp-for="Balance">
+                            <span asp-validation-for="Balance" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label"></label>
+                        <div class="col-md-4">
+                            <input type="submit" value="Save" class="col-md-12 btn btn-primary" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        var depositAdvance = (function () {
+            function getDepositAdvanceDetails() {
+                $('.siteTable').on('click', 'tbody tr #editDepositDetails', function () {
+                    var customerCID = $(this).closest('tr').find('#hiddenCustomerID').val();
+                    $.ajax({
+                        type: 'GET',
+                        url: '@Url.Action("GetDepositAdvanceDetails")',
+                        data: { customerCID: customerCID },
+                        success: function (res) {
+                            $('.DepositID').val(1);
+                            $('.CustomerID').val(res.customerID);
+                            $('.Balance').val(res.balance);
+                            $('.LastAmount').val(res.lastAmount);
+                        }
+                    });
+                });
+            }
+
+            return {
+                getDepositAdvanceDetails: getDepositAdvanceDetails
+            }
+        })();
+
+        $(document).ready(function () {
+            depositAdvance.getDepositAdvanceDetails();
+        });
+    </script>
 }
