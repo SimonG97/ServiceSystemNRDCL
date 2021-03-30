@@ -28,7 +28,7 @@ namespace ServiceSystemNRDCL.Controllers
         }
 
         // GET: Orders
-        public async Task<IActionResult> Index(int? status, int? siteID, int? productID, double? quantity, string? customerID)
+        public async Task<IActionResult> Index(int? status, int? siteID, int? productID, double? quantity, string customerID)
         {
             var userID = _userManager.GetUserId(User);
             userID = string.IsNullOrEmpty(customerID) ? userID : customerID;
